@@ -10,7 +10,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct FeedCell: View {
-    var feed: Feed
+    @Binding var feed: Feed
     
     var body: some View {
         HStack {
@@ -22,9 +22,13 @@ struct FeedCell: View {
                 .frame(width: 40, height: 40)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
 
-            Text(feed.name)
-                .font(.subheadline)
-            
+            VStack(alignment: .leading) {
+                Text(feed.name)
+                    .font(.subheadline)
+                Text("\(feed.posts.filter { !$0.isRead }.count) unread posts")
+                    .font(.footnote)
+            }
+
             Spacer()
         }
         .padding(.horizontal)
@@ -33,6 +37,6 @@ struct FeedCell: View {
 
 struct FeedCell_Previews: PreviewProvider {
     static var previews: some View {
-        FeedCell(feed: Feed(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)]))
+        FeedCell(feed: .constant(Feed(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)])))
     }
 }
