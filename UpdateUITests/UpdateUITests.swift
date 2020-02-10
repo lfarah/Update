@@ -23,13 +23,43 @@ class UpdateUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
+    func testAddFeed() {
         // UI tests must launch the application that they test.
+        
+        let app = XCUIApplication()
+        app.launchArguments += ["UI-Testing"]
+        app.launch()
+        
+        addFeed(with: app)
+
+        let feedCell = app.tables.buttons["Swift Developer News - Hacking with Swift"]
+        XCTAssertFalse(feedCell.exists)
+
+        let exists = NSPredicate(format: "exists == true")
+        expectation(for: exists, evaluatedWith: feedCell, handler: nil)
+
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssert(feedCell.exists)
+    }
+    
+    func addFeed(with app: XCUIApplication) {
+        app.navigationBars["Feeds"].buttons["New Feed"].tap()
+        let urlTextField = app.textFields["URL"]
+        urlTextField.tap()
+
+        urlTextField.doubleTap()
+        urlTextField.typeText("https://www.hackingwithswift.com/articles/rss")
+        
+        app.buttons["Add feed"].tap()
+    }
+    
+    func testReadPost() {
         let app = XCUIApplication()
         app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let tablesQuery = XCUIApplication().tables
+        tablesQuery.buttons["Swift Developer News - Hacking with Swift"].tap()
+        tablesQuery.buttons.firstMatch.tap()
     }
 
     func testLaunchPerformance() {
@@ -40,4 +70,19 @@ class UpdateUITests: XCTestCase {
             }
         }
     }
+}
+
+extension XCTestCase {
+
+  func wait(for duration: TimeInterval) {
+    let waitExpectation = expectation(description: "Waiting")
+
+    let when = DispatchTime.now() + duration
+    DispatchQueue.main.asyncAfter(deadline: when) {
+      waitExpectation.fulfill()
+    }
+
+    // We use a buffer here to avoid flakiness with Timer on CI
+    waitForExpectations(timeout: duration + 0.5)
+  }
 }
