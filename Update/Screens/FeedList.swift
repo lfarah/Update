@@ -30,7 +30,7 @@ struct FeedList: View {
                     }
                 }
                 .navigationBarTitle("Feeds")
-                .navigationBarItems(trailing: Button(action: openNewFeed) {
+                .navigationBarItems(leading: EditButton(), trailing: Button(action: openNewFeed) {
                     Text("New Feed")
                 })
                 

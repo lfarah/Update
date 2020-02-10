@@ -110,7 +110,7 @@ extension RSSStore {
                 let feed = Feed(feed: feedObject) else { return }
             self.feeds.append(feed)
             
-            UserDefaults.feeds = self.feeds
+            self.updateFeeds()
         }
     }
 
@@ -121,17 +121,17 @@ extension RSSStore {
     
     func setPostRead(post: Post, feed: Feed) {
         post.isRead = true
-        if let index = feed.posts.firstIndex(where: {$0.id == post.id}) {
+        if let index = feed.posts.firstIndex(where: {$0.url.absoluteString == post.url.absoluteString}) {
             feed.posts.remove(at: index)
             feed.posts.insert(post, at: index)
         }
         
-        if let index = self.feeds.firstIndex(where: {$0.id == feed.id}) {
+        if let index = self.feeds.firstIndex(where: {$0.url.absoluteString == feed.url.absoluteString}) {
             self.feeds.remove(at: index)
             self.feeds.insert(feed, at: index)
         }
         
-        UserDefaults.feeds = self.feeds
+        self.updateFeeds()
     }
     
     func addFeed(feedURL: URL, handler: @escaping (_ success: Bool) -> Void) {
