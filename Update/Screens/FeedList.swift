@@ -22,7 +22,7 @@ struct FeedList: View {
             ZStack {
                 List {
                     ForEach(store.feeds.indices, id: \.self) { index in
-                        NavigationLink(destination: PostList(feed: self.store.feeds[index])) {
+                        NavigationLink(destination: PostList(feed: self.$store.feeds[index])) {
                             FeedCell(feed: self.$store.feeds[index])
                         }
                     }.onDelete { index in

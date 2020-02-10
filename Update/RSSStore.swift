@@ -40,14 +40,18 @@ class Feed: Codable, Identifiable {
 
 }
 
-class Post: Codable, Identifiable {
+class Post: Codable, Identifiable, ObservableObject {
     let id = UUID()
     var title: String
     var description: String
     var url: URL
     var date: Date
-    var isRead: Bool = false
-    
+    var isRead: Bool = false {
+        didSet {
+            objectWillChange.send()
+        }
+    }
+
     init?(feedItem: RSSFeedItem) {
         self.title =  feedItem.title ?? ""
         self.description = feedItem.description ?? ""

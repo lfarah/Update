@@ -11,7 +11,7 @@ import Combine
 import FeedKit
 
 struct PostList: View {
-    var feed: Feed
+    @Binding var feed: Feed
     
     @ObservedObject var store = RSSStore()
     @State var showingDetail = false
@@ -19,19 +19,23 @@ struct PostList: View {
     @State var showFilter = false
     @State var filterType = FilterType.unreadOnly
     
+    var sortedPosts: [Post] {
+        return feed.posts.filter { self.filterType == .unreadOnly ? !$0.isRead : true }
+    }
+
     var body: some View {
         VStack(spacing: 16) {
             FilterView(selectedFilter: $filterType, showFilter: $showFilter)
             
             ScrollView {
                 VStack(spacing: 16) {
-                    ForEach(feed.posts.filter { self.filterType == .unreadOnly ? !$0.isRead : true}) { post in
+                    ForEach(sortedPosts.indices, id: \.self) { index in
                         Button(action: {
-                            self.selectedPost = post
+                            self.selectedPost = self.sortedPosts[index]
                             self.showingDetail.toggle()
-                            self.store.setPostRead(post: post, feed: self.feed)
+                            self.store.setPostRead(post: self.sortedPosts[index], feed: self.feed)
                         })  {
-                            PostCell(post: post) }.sheet(isPresented: self.$showingDetail) {
+                            PostCell(post: self.sortedPosts[index]) }.sheet(isPresented: self.$showingDetail) {
                                 SafariView(url: self.selectedPost!.url)
                         }
                     }
@@ -76,11 +80,11 @@ struct PostList_Previews: PreviewProvider {
         Group {
             
             NavigationView {
-                PostList(feed: Feed(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)]))
+                PostList(feed: .constant(Feed(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)])))
             }.environment(\.colorScheme, .dark)
             
             NavigationView {
-                PostList(feed: Feed(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)]))
+                PostList(feed: .constant(Feed(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)])))
             }.environment(\.colorScheme, .light)
         }
     }

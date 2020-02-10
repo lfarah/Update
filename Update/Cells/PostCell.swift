@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Combine
 
 struct PostCell: View {
-    var post: Post
+    @ObservedObject var post: Post
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
