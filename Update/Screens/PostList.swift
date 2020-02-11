@@ -36,10 +36,12 @@ struct PostList: View {
                         self.showingDetail.toggle()
                         self.store.setPostRead(post: self.sortedPosts[index], feed: self.feed)
                     })  {
-                        PostCell(post: self.sortedPosts[index]) }.sheet(isPresented: self.$showingDetail) {
-                            SafariView(url: self.selectedPost!.url)
+                        PostCell(post: self.sortedPosts[index])
                     }
                 }
+            }
+            .sheet(isPresented: self.$showingDetail) {
+                SafariView(url: self.selectedPost!.url)
             }
             .padding(.horizontal, 16)
         }

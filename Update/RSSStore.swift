@@ -195,14 +195,8 @@ extension RSSStore {
     
     func markAllPostsRead(feed: FeedObject) {
         feed.posts.forEach { (post) in
-            post.isRead = true
+            setPostRead(post: post, feed: feed)
         }
-        
-        if let index = self.feeds.firstIndex(where: {$0.url.absoluteString == feed.url.absoluteString}) {
-            self.feeds.remove(at: index)
-            self.feeds.insert(feed, at: index)
-        }
-        updateFeeds()
     }
     
     func setPostRead(post: Post, feed: FeedObject) {
