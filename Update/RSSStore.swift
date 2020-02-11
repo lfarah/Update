@@ -8,6 +8,7 @@
 
 import SwiftUI
 import FeedKit
+import FaviconFinder
 
 class FeedObject: Codable, Identifiable, ObservableObject {
     let id = UUID()
@@ -20,11 +21,13 @@ class FeedObject: Codable, Identifiable, ObservableObject {
     }
     
     var imageURL: URL?
+    
     var lastUpdateDate: Date
     
     init?(feed: Feed, url: URL) {
         self.url = url
-
+        lastUpdateDate = Date()
+        
         switch feed {
         case .rss(let rssFeed):
             self.name =  rssFeed.title ?? ""
@@ -38,7 +41,12 @@ class FeedObject: Codable, Identifiable, ObservableObject {
             
             if let urlStr = rssFeed.image?.url, let url = URL(string: urlStr) {
                 self.imageURL = url
+            } else {
+                FaviconFinder(url: URL(string: rssFeed.link ?? "")!).downloadFavicon { (_, url, error) in
+                    self.imageURL = url
+                }
             }
+            
         case .atom(let atomFeed):
             self.name =  atomFeed.title ?? ""
             
@@ -48,24 +56,27 @@ class FeedObject: Codable, Identifiable, ObservableObject {
                 .sorted(by: { (lhs, rhs) -> Bool in
                     return Calendar.current.compare(lhs.date, to: rhs.date,     toGranularity: .minute) ==  ComparisonResult.orderedDescending
                 })
-
+            
             if let urlStr = atomFeed.logo, let url = URL(string: urlStr) {
                 self.imageURL = url
+            } else {
+                FaviconFinder(url: URL(string: atomFeed.links?.first?.attributes?.href ?? "")!).downloadFavicon { (_, url, error) in
+                    self.imageURL = url
+                }
             }
         default:
             return nil
         }
         
-        lastUpdateDate = Date()
     }
-        
+    
     init(name: String, url: URL, posts: [Post]) {
         self.name = name
         self.url = url
         self.posts = posts
         lastUpdateDate = Date()
     }
-
+    
 }
 
 class Post: Codable, Identifiable, ObservableObject {
@@ -81,7 +92,7 @@ class Post: Codable, Identifiable, ObservableObject {
     }
     
     var lastUpdateDate: Date
-
+    
     init?(feedItem: RSSFeedItem) {
         self.title =  feedItem.title ?? ""
         self.description = feedItem.description ?? ""
@@ -110,7 +121,7 @@ class Post: Codable, Identifiable, ObservableObject {
         self.date = atomFeed.updated ?? Date()
         lastUpdateDate = Date()
     }
-
+    
     init(title: String, description: String, url: URL) {
         self.title = title
         self.description = description
@@ -125,16 +136,16 @@ class RSSStore: ObservableObject {
     static let instance = RSSStore()
     
     @Published var feeds: [FeedObject] = []
-
+    
     init() {
         self.feeds = UserDefaults.feeds
     }
-            
+    
     func fetchContents(feedURL: URL, handler: @escaping (_ feed: Feed?) -> Void) {
         let parser = FeedParser(URL: feedURL)
-
+        
         parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { (result) in
-
+            
             switch result {
                 
             case .success(let feed):
@@ -142,7 +153,7 @@ class RSSStore: ObservableObject {
                     handler(feed)
                 }
             case .failure(let error):
-                    print(error)
+                print(error)
             }
         }
     }

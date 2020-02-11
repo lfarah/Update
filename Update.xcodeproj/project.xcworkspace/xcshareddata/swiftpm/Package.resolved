@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "FaviconFinder",
+        "repositoryURL": "https://github.com/lfarah/FaviconFinder.git",
+        "state": {
+          "branch": null,
+          "revision": "79c7c54496364d999ab53feba5c5f79923a0deea",
+          "version": "2.1.2"
+        }
+      },
+      {
         "package": "FeedKit",
         "repositoryURL": "https://github.com/nmdias/FeedKit.git",
         "state": {
@@ -26,6 +35,15 @@
           "branch": null,
           "revision": "e0af3b71af59b6da0c33f83686f9787bb54c175a",
           "version": "0.10.3"
+        }
+      },
+      {
+        "package": "SwiftSoup",
+        "repositoryURL": "https://github.com/scinfu/SwiftSoup.git",
+        "state": {
+          "branch": null,
+          "revision": "7f187fd8804e63dea89879c95d7c2f7703727d0f",
+          "version": "2.3.0"
         }
       }
     ]

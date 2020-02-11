@@ -45,6 +45,7 @@
 		C2C9C2DC23F1E2DF00F84042 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */; };
 		C2C9C2DD23F1E2DF00F84042 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */; };
 		C2C9C2DE23F1E2DF00F84042 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */; };
+		C2E3A1F323F3247D00F0B7FB /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = C2E3A1F223F3247D00F0B7FB /* FaviconFinder */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2E3A1F323F3247D00F0B7FB /* FaviconFinder in Frameworks */,
 				C28FD95923F0B8180054BAD1 /* SDWebImageSwiftUI in Frameworks */,
 				C28FD94B23F091610054BAD1 /* FeedKit in Frameworks */,
 			);
@@ -247,6 +249,7 @@
 			packageProductDependencies = (
 				C28FD94A23F091610054BAD1 /* FeedKit */,
 				C28FD95823F0B8180054BAD1 /* SDWebImageSwiftUI */,
+				C2E3A1F223F3247D00F0B7FB /* FaviconFinder */,
 			);
 			productName = Update;
 			productReference = C28FD91623F0913B0054BAD1 /* Update.app */;
@@ -327,6 +330,7 @@
 			packageReferences = (
 				C28FD94923F091610054BAD1 /* XCRemoteSwiftPackageReference "FeedKit" */,
 				C28FD95723F0B8180054BAD1 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				C2E3A1F123F3247D00F0B7FB /* XCRemoteSwiftPackageReference "FaviconFinder" */,
 			);
 			productRefGroup = C28FD91723F0913B0054BAD1 /* Products */;
 			projectDirPath = "";
@@ -565,10 +569,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Update/Update.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Update/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7WB6X64N4P;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Update/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -590,10 +596,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Update/Update.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Update/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7WB6X64N4P;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Update/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -748,6 +756,14 @@
 				minimumVersion = 0.10.3;
 			};
 		};
+		C2E3A1F123F3247D00F0B7FB /* XCRemoteSwiftPackageReference "FaviconFinder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lfarah/FaviconFinder.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -770,6 +786,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C28FD95723F0B8180054BAD1 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		C2E3A1F223F3247D00F0B7FB /* FaviconFinder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C2E3A1F123F3247D00F0B7FB /* XCRemoteSwiftPackageReference "FaviconFinder" */;
+			productName = FaviconFinder;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

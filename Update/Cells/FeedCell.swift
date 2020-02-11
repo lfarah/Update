@@ -14,6 +14,7 @@ struct FeedCell: View {
     
     var body: some View {
         HStack {
+
             WebImage(url: feed.imageURL)
                 .resizable()
                 .placeholder {
@@ -21,7 +22,7 @@ struct FeedCell: View {
                 }
                 .frame(width: 40, height: 40)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
-
+            
             VStack(alignment: .leading) {
                 Text(feed.name)
                     .font(.subheadline)
