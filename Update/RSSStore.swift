@@ -9,7 +9,7 @@
 import SwiftUI
 import FeedKit
 
-class Feed: Codable, Identifiable, ObservableObject {
+class FeedObject: Codable, Identifiable, ObservableObject {
     let id = UUID()
     var name: String
     var url: URL
@@ -22,19 +22,35 @@ class Feed: Codable, Identifiable, ObservableObject {
     var imageURL: URL?
     var lastUpdateDate: Date
     
-    init?(feed: RSSFeed, url: URL) {
+    init?(feed: Feed, url: URL) {
         self.url = url
-        self.name =  feed.title ?? ""
-        
-        let items = feed.items ?? []
-        self.posts = items.compactMap { Post(feedItem: $0) }
-        
-        if let urlStr = feed.image?.url, let url = URL(string: urlStr) {
-            self.imageURL = url
+
+        switch feed {
+        case .rss(let rssFeed):
+            self.name =  rssFeed.title ?? ""
+            
+            let items = rssFeed.items ?? []
+            self.posts = items.compactMap { Post(feedItem: $0) }
+            
+            if let urlStr = rssFeed.image?.url, let url = URL(string: urlStr) {
+                self.imageURL = url
+            }
+        case .atom(let atomFeed):
+            self.name =  atomFeed.title ?? ""
+            
+            let items = atomFeed.entries ?? []
+            self.posts = items.compactMap { Post(atomFeed: $0) }
+            
+            if let urlStr = atomFeed.logo, let url = URL(string: urlStr) {
+                self.imageURL = url
+            }
+        default:
+            return nil
         }
+        
         lastUpdateDate = Date()
     }
-    
+        
     init(name: String, url: URL, posts: [Post]) {
         self.name = name
         self.url = url
@@ -71,6 +87,22 @@ class Post: Codable, Identifiable, ObservableObject {
         lastUpdateDate = Date()
     }
     
+    init?(atomFeed: AtomFeedEntry) {
+        self.title =  atomFeed.title ?? ""
+        let description = atomFeed.content?.value ?? ""
+        
+        let attributed = try? NSAttributedString(data: description.data(using: .unicode)!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+        self.description = attributed?.string ?? ""
+        
+        if let link = atomFeed.links?.first?.attributes?.href, let url = URL(string: link) {
+            self.url = url
+        } else {
+            return nil
+        }
+        self.date = atomFeed.updated ?? Date()
+        lastUpdateDate = Date()
+    }
+
     init(title: String, description: String, url: URL) {
         self.title = title
         self.description = description
@@ -84,13 +116,13 @@ class RSSStore: ObservableObject {
     
     static let instance = RSSStore()
     
-    @Published var feeds: [Feed] = []
+    @Published var feeds: [FeedObject] = []
 
     init() {
         self.feeds = UserDefaults.feeds
     }
             
-    func fetchContents(feedURL: URL, handler: @escaping (_ feed: RSSFeed?) -> Void) {
+    func fetchContents(feedURL: URL, handler: @escaping (_ feed: Feed?) -> Void) {
         let parser = FeedParser(URL: feedURL)
 
         parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { (result) in
@@ -99,7 +131,7 @@ class RSSStore: ObservableObject {
                 
             case .success(let feed):
                 DispatchQueue.main.async {
-                    handler(feed.rssFeed)
+                    handler(feed)
                 }
             case .failure(let error):
                     print(error)
@@ -121,12 +153,12 @@ extension RSSStore {
         }
     }
     
-    func reloadFeedPosts(feed: Feed) {
+    func reloadFeedPosts(feed: FeedObject) {
         
         fetchContents(feedURL: feed.url) { (feedObject) in
 
             guard let feedObject = feedObject,
-                let newFeed = Feed(feed: feedObject, url: feed.url) else { return }
+                let newFeed = FeedObject(feed: feedObject, url: feed.url) else { return }
             let recentFeedPosts = newFeed.posts.filter { newPost in
                 return !feed.posts.contains { (post) -> Bool in
                     return post.title == newPost.title
@@ -149,7 +181,7 @@ extension RSSStore {
             handler(true)
 
             guard let feedObject = feedObject,
-                let feed = Feed(feed: feedObject, url: feedURL) else { return }
+                let feed = FeedObject(feed: feedObject, url: feedURL) else { return }
             self.feeds.append(feed)
             
             self.updateFeeds()
@@ -161,7 +193,19 @@ extension RSSStore {
         updateFeeds()
     }
     
-    func setPostRead(post: Post, feed: Feed) {
+    func markAllPostsRead(feed: FeedObject) {
+        feed.posts.forEach { (post) in
+            post.isRead = true
+        }
+        
+        if let index = self.feeds.firstIndex(where: {$0.url.absoluteString == feed.url.absoluteString}) {
+            self.feeds.remove(at: index)
+            self.feeds.insert(feed, at: index)
+        }
+        updateFeeds()
+    }
+    
+    func setPostRead(post: Post, feed: FeedObject) {
         post.isRead = true
         if let index = feed.posts.firstIndex(where: {$0.url.absoluteString == post.url.absoluteString}) {
             feed.posts.remove(at: index)

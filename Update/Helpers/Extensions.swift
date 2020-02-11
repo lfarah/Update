@@ -17,12 +17,12 @@ extension Date {
 }
 
 extension UserDefaults {
-    static var feeds: [Feed] {
+    static var feeds: [FeedObject] {
         get {
             guard let data = UserDefaults.standard.value(forKey: "feeds") as? Data else {
                 return []
             }
-            return (try? JSONDecoder().decode([Feed].self, from: data)) ?? []
+            return (try? JSONDecoder().decode([FeedObject].self, from: data)) ?? []
         }
         set {
             let data = try? JSONEncoder().encode(newValue)

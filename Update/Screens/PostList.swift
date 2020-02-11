@@ -11,7 +11,7 @@ import Combine
 import FeedKit
 
 struct PostList: View {
-    @Binding var feed: Feed
+    @Binding var feed: FeedObject
     
     @ObservedObject var store = RSSStore.instance
     @State var showingDetail = false
@@ -25,7 +25,9 @@ struct PostList: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            FilterView(selectedFilter: $filterType, showFilter: $showFilter)
+            FilterView(selectedFilter: $filterType, showFilter: $showFilter, markedAllPostsRead: {
+                self.store.markAllPostsRead(feed: self.feed)
+            })
             
             List {
                 ForEach(sortedPosts.indices, id: \.self) { index in
@@ -77,11 +79,11 @@ struct PostList_Previews: PreviewProvider {
         Group {
             
             NavigationView {
-                PostList(feed: .constant(Feed(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)])))
+                PostList(feed: .constant(FeedObject(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)])))
             }.environment(\.colorScheme, .dark)
             
             NavigationView {
-                PostList(feed: .constant(Feed(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)])))
+                PostList(feed: .constant(FeedObject(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)])))
             }.environment(\.colorScheme, .light)
         }
     }

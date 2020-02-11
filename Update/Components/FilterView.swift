@@ -16,30 +16,39 @@ enum FilterType: String {
 struct FilterView: View {
     @Binding var selectedFilter: FilterType
     @Binding var showFilter: Bool
+    var markedAllPostsRead: (() -> Void)?
     
     var body: some View {
-        Group {
-            
-            HStack {
-                Text(FilterType.all.rawValue)
-                    .padding()
-                    .foregroundColor(Color(selectedFilter == .all ? .white : .label))
-                    .background(selectedFilter == .all ? Color.blue : nil)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .onTapGesture {
-                        self.selectedFilter = .all
+            VStack(spacing: 16) {
+                HStack() {
+                    Text(FilterType.all.rawValue)
+                        .padding()
+                        .foregroundColor(Color(selectedFilter == .all ? .white : .label))
+                        .background(selectedFilter == .all ? Color.blue : nil)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .onTapGesture {
+                            self.selectedFilter = .all
+                    }
+                    
+                    Text(FilterType.unreadOnly.rawValue)
+                        .padding()
+                        .foregroundColor(Color(selectedFilter == .unreadOnly ? .white : .label))
+                        .background(selectedFilter == .unreadOnly ? Color.blue : nil)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .onTapGesture {
+                            self.selectedFilter = .unreadOnly
+                    }
                 }
                 
-                Text(FilterType.unreadOnly.rawValue)
-                    .padding()
-                    .foregroundColor(Color(selectedFilter == .unreadOnly ? .white : .label))
-                    .background(selectedFilter == .unreadOnly ? Color.blue : nil)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .onTapGesture {
-                        self.selectedFilter = .unreadOnly
+                Button(action: {
+                    self.markedAllPostsRead?()
+                }) {
+                    Text("Mark all read")
+                        .font(.subheadline)
+                        .foregroundColor(Color(.label))
                 }
+                
             }
-        }
         .frame(height: showFilter ? nil : 0)
         .clipped()
     }
@@ -48,6 +57,6 @@ struct FilterView: View {
 struct FilterView_Previews: PreviewProvider {
     static var previews: some View {
         FilterView(selectedFilter: .constant(.all),
-                   showFilter: .constant(true))
+                   showFilter: .constant(true), markedAllPostsRead: nil)
     }
 }
