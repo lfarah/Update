@@ -22,7 +22,7 @@ struct PostCell: View {
                 .foregroundColor(Color(.darkText))
             
             HStack {
-                Text(post.date.toString())
+                Text(formatDate(with: post.date))
                     .frame(height: 15)
                     .font(.footnote)
                     .padding(.all, 8)
@@ -44,6 +44,14 @@ struct PostCell: View {
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(radius: 5)
+    }
+    
+    func formatDate(with date: Date) -> String {
+        if Calendar.current.isDateInToday(date) {
+            return "Today at " + date.toString(format: "HH:mm a")
+        } else {
+            return date.toString(format: "dd/MM/yyyy")
+        }
     }
 }
 

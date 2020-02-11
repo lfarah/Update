@@ -30,7 +30,11 @@ class FeedObject: Codable, Identifiable, ObservableObject {
             self.name =  rssFeed.title ?? ""
             
             let items = rssFeed.items ?? []
-            self.posts = items.compactMap { Post(feedItem: $0) }
+            self.posts = items
+                .compactMap { Post(feedItem: $0) }
+                .sorted(by: { (lhs, rhs) -> Bool in
+                    return Calendar.current.compare(lhs.date, to: rhs.date, toGranularity: .minute) == ComparisonResult.orderedDescending
+                })
             
             if let urlStr = rssFeed.image?.url, let url = URL(string: urlStr) {
                 self.imageURL = url
@@ -39,8 +43,12 @@ class FeedObject: Codable, Identifiable, ObservableObject {
             self.name =  atomFeed.title ?? ""
             
             let items = atomFeed.entries ?? []
-            self.posts = items.compactMap { Post(atomFeed: $0) }
-            
+            self.posts = items
+                .compactMap { Post(atomFeed: $0) }
+                .sorted(by: { (lhs, rhs) -> Bool in
+                    return Calendar.current.compare(lhs.date, to: rhs.date,     toGranularity: .minute) ==  ComparisonResult.orderedDescending
+                })
+
             if let urlStr = atomFeed.logo, let url = URL(string: urlStr) {
                 self.imageURL = url
             }

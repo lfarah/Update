@@ -38,14 +38,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
     }
 
+    var autoReloadTimer: Timer!
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        
+        autoReloadTimer = Timer.scheduledTimer(withTimeInterval: 1 * 60, repeats: true) { timer in
+            RSSStore.instance.reloadAllPosts()
+        }
+
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
+        autoReloadTimer.invalidate()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
