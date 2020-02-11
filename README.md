@@ -1,4 +1,5 @@
-# Update
+<img width="397" alt="Screen Shot 2020-02-10 at 9 41 04 PM" src="https://user-images.githubusercontent.com/6511079/74203349-0f88b900-4c4e-11ea-84ca-7157f8aba1b5.png">
+
 An RSS reader for iOS and macOS, made with SwiftUI
 
 If you wanna help me continue this project, let me know 😉
