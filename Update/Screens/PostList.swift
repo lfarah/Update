@@ -22,26 +22,24 @@ struct PostList: View {
     var sortedPosts: [Post] {
         return feed.posts.filter { self.filterType == .unreadOnly ? !$0.isRead : true }
     }
-
+    
     var body: some View {
         VStack(spacing: 16) {
             FilterView(selectedFilter: $filterType, showFilter: $showFilter)
             
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(sortedPosts.indices, id: \.self) { index in
-                        Button(action: {
-                            self.selectedPost = self.sortedPosts[index]
-                            self.showingDetail.toggle()
-                            self.store.setPostRead(post: self.sortedPosts[index], feed: self.feed)
-                        })  {
-                            PostCell(post: self.sortedPosts[index]) }.sheet(isPresented: self.$showingDetail) {
-                                SafariView(url: self.selectedPost!.url)
-                        }
+            List {
+                ForEach(sortedPosts.indices, id: \.self) { index in
+                    Button(action: {
+                        self.selectedPost = self.sortedPosts[index]
+                        self.showingDetail.toggle()
+                        self.store.setPostRead(post: self.sortedPosts[index], feed: self.feed)
+                    })  {
+                        PostCell(post: self.sortedPosts[index]) }.sheet(isPresented: self.$showingDetail) {
+                            SafariView(url: self.selectedPost!.url)
                     }
                 }
-                .padding(.horizontal, 16)
             }
+            .padding(.horizontal, 16)
         }
         .navigationBarItems(trailing:
             HStack {
@@ -69,8 +67,7 @@ struct PostList: View {
     }
     
     func updatePosts() {
-        store.update(feedURL: feed.url) { _ in 
-        }
+        store.reloadFeedPosts(feed: feed)
     }
 }
 

@@ -23,7 +23,7 @@ struct FeedList: View {
                 List {
                     ForEach(store.feeds.indices, id: \.self) { index in
                         NavigationLink(destination: PostList(feed: self.$store.feeds[index])) {
-                            FeedCell(feed: self.$store.feeds[index])
+                            FeedCell(feed: self.store.feeds[index])
                         }
                     }.onDelete { index in
                         self.store.removeFeed(at: index.first!)

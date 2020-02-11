@@ -9,20 +9,22 @@
 import SwiftUI
 import FeedKit
 
-class Feed: Codable, Identifiable {
+class Feed: Codable, Identifiable, ObservableObject {
     let id = UUID()
     var name: String
     var url: URL
-    var posts: [Post]
-    var imageURL: URL?
-
-    init?(feed: RSSFeed) {
-        self.name =  feed.title ?? ""
-        if let link = feed.link, let url = URL(string: link) {
-            self.url = url
-        } else {
-            return nil
+    var posts: [Post] {
+        didSet {
+            objectWillChange.send()
         }
+    }
+    
+    var imageURL: URL?
+    var lastUpdateDate: Date
+    
+    init?(feed: RSSFeed, url: URL) {
+        self.url = url
+        self.name =  feed.title ?? ""
         
         let items = feed.items ?? []
         self.posts = items.compactMap { Post(feedItem: $0) }
@@ -30,12 +32,14 @@ class Feed: Codable, Identifiable {
         if let urlStr = feed.image?.url, let url = URL(string: urlStr) {
             self.imageURL = url
         }
+        lastUpdateDate = Date()
     }
     
     init(name: String, url: URL, posts: [Post]) {
         self.name = name
         self.url = url
         self.posts = posts
+        lastUpdateDate = Date()
     }
 
 }
@@ -51,6 +55,8 @@ class Post: Codable, Identifiable, ObservableObject {
             objectWillChange.send()
         }
     }
+    
+    var lastUpdateDate: Date
 
     init?(feedItem: RSSFeedItem) {
         self.title =  feedItem.title ?? ""
@@ -62,6 +68,7 @@ class Post: Codable, Identifiable, ObservableObject {
             return nil
         }
         self.date = feedItem.pubDate ?? Date()
+        lastUpdateDate = Date()
     }
     
     init(title: String, description: String, url: URL) {
@@ -69,6 +76,7 @@ class Post: Codable, Identifiable, ObservableObject {
         self.description = description
         self.url = url
         self.date = Date()
+        lastUpdateDate = Date()
     }
 }
 
@@ -105,13 +113,35 @@ class RSSStore: ObservableObject {
 // MARK: - Public Methods
 extension RSSStore {
     
+    func reloadFeedPosts(feed: Feed) {
+        
+        fetchContents(feedURL: feed.url) { (feedObject) in
+
+            guard let feedObject = feedObject,
+                let newFeed = Feed(feed: feedObject, url: feed.url) else { return }
+            let recentFeedPosts = newFeed.posts.filter { newPost in
+                return !feed.posts.contains { (post) -> Bool in
+                    return post.title == newPost.title
+                }
+            }
+            
+            feed.posts.insert(contentsOf: recentFeedPosts, at: 0)
+            
+            if let index = self.feeds.firstIndex(where: {$0.url.absoluteString == feed.url.absoluteString}) {
+                self.feeds.remove(at: index)
+                self.feeds.insert(feed, at: index)
+            }
+
+            self.updateFeeds()
+        }
+    }
     func update(feedURL: URL, handler: @escaping (_ success: Bool) -> Void) {
         
         fetchContents(feedURL: feedURL) { (feedObject) in
             handler(true)
 
             guard let feedObject = feedObject,
-                let feed = Feed(feed: feedObject) else { return }
+                let feed = Feed(feed: feedObject, url: feedURL) else { return }
             self.feeds.append(feed)
             
             self.updateFeeds()
