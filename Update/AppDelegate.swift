@@ -22,6 +22,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
+    
+    override func buildMenu(with builder: UIMenuBuilder) {
+        let openCommand =
+            UIKeyCommand(title: NSLocalizedString("Reload", comment: ""),
+                         image: nil,
+                         action: #selector(reloadAllPosts),
+                         input: "R",
+                         modifierFlags: .command,
+                         propertyList: nil)
+        let openMenu =
+            UIMenu(title: "",
+                   image: nil,
+                   identifier: UIMenu.Identifier("io.lucasfarah.Update.openMenu"),
+                   options: .displayInline,
+                   children: [openCommand])
+
+        builder.insertChild(openMenu, atStartOfMenu: .file)
+    }
+    
+    @objc func reloadAllPosts() {
+        RSSStore.instance.reloadAllPosts()
+    }
 
     // MARK: UISceneSession Lifecycle
 

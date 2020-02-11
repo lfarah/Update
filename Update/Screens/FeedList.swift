@@ -11,7 +11,7 @@ import Combine
 import SDWebImageSwiftUI
 
 struct FeedList: View {
-    @ObservedObject var store = RSSStore()
+    @ObservedObject var store = RSSStore.instance
     @State var showNewFeedPopup = false
     @State var feedURL: String = ""
     @State var feedAddColor: Color = .blue
@@ -65,8 +65,6 @@ struct FeedList: View {
                                 .background(Color.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                         }
-                        
-                        
                     }
                     .accessibility(identifier: "addFeedPopup")
                     .padding()
@@ -90,6 +88,7 @@ struct FeedList: View {
 
             }
         }
+        .navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
     
     func openNewFeed() {
@@ -100,7 +99,7 @@ struct FeedList: View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         guard let url = URL(string: feedURL) else { return }
         
-        store.update(feedURL: url) { success in
+        store.addFeed(feedURL: url) { success in
             self.feedAddColor = success ? Color.green : Color.red
             
             if success {

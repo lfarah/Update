@@ -82,6 +82,8 @@ class Post: Codable, Identifiable, ObservableObject {
 
 class RSSStore: ObservableObject {
     
+    static let instance = RSSStore()
+    
     @Published var feeds: [Feed] = []
 
     init() {
@@ -112,6 +114,12 @@ class RSSStore: ObservableObject {
 
 // MARK: - Public Methods
 extension RSSStore {
+    
+    func reloadAllPosts() {
+        for feed in self.feeds {
+            reloadFeedPosts(feed: feed)
+        }
+    }
     
     func reloadFeedPosts(feed: Feed) {
         

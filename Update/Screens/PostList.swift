@@ -13,7 +13,7 @@ import FeedKit
 struct PostList: View {
     @Binding var feed: Feed
     
-    @ObservedObject var store = RSSStore()
+    @ObservedObject var store = RSSStore.instance
     @State var showingDetail = false
     @State var selectedPost: Post?
     @State var showFilter = false
