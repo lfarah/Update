@@ -9,6 +9,7 @@
 import SwiftUI
 import FeedKit
 import FaviconFinder
+import Combine
 
 class FeedObject: Codable, Identifiable, ObservableObject {
     let id = UUID()
@@ -136,9 +137,32 @@ class RSSStore: ObservableObject {
     static let instance = RSSStore()
     
     @Published var feeds: [FeedObject] = []
-    
+    @Published var shouldSelectFeed: Bool = false
+    @Published var shouldSelectFeedURL: String?
+    @Published var shouldSelectFeedObject: FeedObject?
+
+    var notificationSubscriber: AnyCancellable?
+    var notificationSubscriber2: AnyCancellable?
+
     init() {
         self.feeds = UserDefaults.feeds
+        
+        notificationSubscriber = $shouldSelectFeedURL
+            .receive(on: DispatchQueue.main)
+            .map { (url) -> FeedObject? in
+                guard let url = url else {
+                    return nil
+                }
+                return self.feeds.first(where: {$0.url.absoluteString == url })
+            }
+            .assign(to: \.shouldSelectFeedObject, on: self)
+
+        notificationSubscriber2 = $shouldSelectFeedObject
+            .receive(on: DispatchQueue.main)
+            .map { (object) -> Bool in
+                return object != nil
+            }
+            .assign(to: \.shouldSelectFeed, on: self)
     }
     
     func fetchContents(feedURL: URL, handler: @escaping (_ feed: Feed?) -> Void) {
@@ -163,6 +187,14 @@ class RSSStore: ObservableObject {
     }
 }
 
+// MARK: - Notifications
+extension RSSStore {
+    func scheduleNewPostNotification(for feed: FeedObject) {
+        Notifier.notify(title: "New post from \(feed.name)", body: feed.posts.first?.title ?? "", info: ["feedURL": feed.url.absoluteString])
+
+    }
+}
+
 // MARK: - Public Methods
 extension RSSStore {
     
@@ -175,7 +207,7 @@ extension RSSStore {
     func reloadFeedPosts(feed: FeedObject) {
         
         fetchContents(feedURL: feed.url) { (feedObject) in
-
+            
             guard let feedObject = feedObject,
                 let newFeed = FeedObject(feed: feedObject, url: feed.url) else { return }
             let recentFeedPosts = newFeed.posts.filter { newPost in
@@ -184,21 +216,27 @@ extension RSSStore {
                 }
             }
             
+            guard !recentFeedPosts.isEmpty else {
+                return
+            }
+            
             feed.posts.insert(contentsOf: recentFeedPosts, at: 0)
             
             if let index = self.feeds.firstIndex(where: {$0.url.absoluteString == feed.url.absoluteString}) {
                 self.feeds.remove(at: index)
                 self.feeds.insert(feed, at: index)
             }
-
+            
             self.updateFeeds()
+            self.scheduleNewPostNotification(for: feed)
         }
     }
+        
     func update(feedURL: URL, handler: @escaping (_ success: Bool) -> Void) {
         
         fetchContents(feedURL: feedURL) { (feedObject) in
             handler(true)
-
+            
             guard let feedObject = feedObject,
                 let feed = FeedObject(feed: feedObject, url: feedURL) else { return }
             self.feeds.append(feed)
@@ -206,7 +244,7 @@ extension RSSStore {
             self.updateFeeds()
         }
     }
-
+    
     func removeFeed(at index: Int) {
         feeds.remove(at: index)
         updateFeeds()
@@ -241,5 +279,4 @@ extension RSSStore {
         
         update(feedURL: feedURL, handler: handler)
     }
-
 }

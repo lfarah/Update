@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.removePersistentDomain(forName: bundleName)
         }
 
+        UNUserNotificationCenter.current().delegate = self
         return true
     }
     
@@ -58,7 +60,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
+
+extension AppDelegate: UNUserNotificationCenterDelegate{
+    
+  // This function will be called right after user tap on the notification
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+      
+    // tell the app that we have finished processing the user’s action / response
+    RSSStore.instance.shouldSelectFeedURL = response.notification.request.content.userInfo["feedURL"] as? String
+    completionHandler()
+  }
+}
+
 

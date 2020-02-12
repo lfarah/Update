@@ -16,7 +16,12 @@ struct FeedList: View {
     @State var feedURL: String = ""
     @State var feedAddColor: Color = .blue
     @State var attempts: Int = 0
-
+    
+    func filterFeeds(url: String?) -> FeedObject? {
+        guard let url = url else { return nil }
+        return store.feeds.first(where: { $0.url.absoluteString == url })
+    }
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -33,59 +38,20 @@ struct FeedList: View {
                 .navigationBarItems(leading: EditButton(), trailing: Button(action: openNewFeed) {
                     Text("New Feed")
                 })
-                
-                VStack {
-                    
-                    VStack {
-                        ZStack {
-                            Text("Feed URL")
-                                .font(.title)
-                                .foregroundColor(.white)
-                            
-                            HStack {
-                                Spacer()
-                                Button(action: openNewFeed) {
-                                    Image(systemName: "xmark")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 30))
-                                        .padding()
-                                }
-                            }
-
+                    .sheet(isPresented: self.$store.shouldSelectFeed) {
+                        NavigationView {
+                            PostList(feed: Binding(self.$store.shouldSelectFeedObject)!)
+                                .navigationBarItems(leading:
+                                    Button(action: {
+                                        self.store.shouldSelectFeed = false
+                                    }, label: {
+                                        Text("Close")
+                                    })
+                            )
                         }
-                        
-                        TextField("URL", text: $feedURL)
-                            .padding()
-                            .background(Color.white)
-                            .foregroundColor(Color(.black)) .clipShape(RoundedRectangle(cornerRadius: 20))
-                        Button(action: addFeed) {
-                            Text("Add feed")
-                                .padding()
-                                .foregroundColor(.black)
-                                .background(Color.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                        }
-                    }
-                    .accessibility(identifier: "addFeedPopup")
-                    .padding()
-                    .background(feedAddColor)
-                    .animation(.easeInOut(duration: 0.1))
-
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding(.all, 16)
-                        .modifier(Shake(animatableData: CGFloat(attempts)))
-
-                    .animation(Animation.easeIn(duration: 0.5))
-                    .offset(x: 0, y: showNewFeedPopup ? 200 : screen.height)
-                    .animation(Animation.easeInOut(duration: 1).delay(1))
-                    Spacer()
+                        .navigationViewStyle(StackNavigationViewStyle())
                 }
-                .frame(maxWidth: .infinity)
-                .background(Color.black.opacity(0.6))
-                .edgesIgnoringSafeArea(.all)
-                .opacity(showNewFeedPopup ? 1 : 0)
-                .animation(Animation.easeIn(duration: 0.2).delay(showNewFeedPopup ? 0: 0.5))
-
+                NewFeedPopup(feedURL: $feedURL, addFeedPressed: addFeed, feedAddColor: $feedAddColor, attempts: $attempts, show: $showNewFeedPopup)
             }
         }
         .navigationViewStyle(DoubleColumnNavigationViewStyle())
@@ -121,11 +87,11 @@ struct Shake: GeometryEffect {
     var amount: CGFloat = 5
     var shakesPerUnit = 6
     var animatableData: CGFloat
-
+    
     func effectValue(size: CGSize) -> ProjectionTransform {
         ProjectionTransform(CGAffineTransform(translationX:
             amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
-            y: 0))
+                                              y: 0))
     }
 }
 struct FeedList_Previews: PreviewProvider {

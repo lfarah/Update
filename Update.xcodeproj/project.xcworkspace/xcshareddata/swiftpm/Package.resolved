@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "FaviconFinder",
-        "repositoryURL": "https://github.com/lfarah/FaviconFinder.git",
+        "repositoryURL": "https://github.com/lfarah/FaviconFinder",
         "state": {
           "branch": null,
           "revision": "79c7c54496364d999ab53feba5c5f79923a0deea",
