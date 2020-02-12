@@ -29,4 +29,17 @@ extension UserDefaults {
             UserDefaults.standard.set(data, forKey: "feeds")
         }
     }
+    
+    static var fetchContentTime: ContentTimeType {
+        get {
+            guard let contentString = UserDefaults.standard.value(forKey: "fetchContentTime") as? String else {
+                return .minute1
+            }
+            return ContentTimeType(rawValue: contentString) ?? .minute1
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: "fetchContentTime")
+        }
+    }
+
 }

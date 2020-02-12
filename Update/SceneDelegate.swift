@@ -43,11 +43,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        startReloadTimer()
+    }
+    
+    func startReloadTimer() {
+        let currentReloadTime = RSSStore.instance.fetchContentType.seconds
         
-        autoReloadTimer = Timer.scheduledTimer(withTimeInterval: 1 * 60, repeats: true) { timer in
+        // TODO: make this work with Rx
+        autoReloadTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(currentReloadTime), repeats: true) { timer in
+            if currentReloadTime != RSSStore.instance.fetchContentType.seconds {
+                timer.invalidate()
+                self.startReloadTimer()
+            }
             RSSStore.instance.reloadAllPosts()
         }
-
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

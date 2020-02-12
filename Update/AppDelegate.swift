@@ -26,21 +26,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     override func buildMenu(with builder: UIMenuBuilder) {
-        let openCommand =
+        let reloadCommand =
             UIKeyCommand(title: NSLocalizedString("Reload", comment: ""),
                          image: nil,
                          action: #selector(reloadAllPosts),
                          input: "R",
                          modifierFlags: .command,
                          propertyList: nil)
-        let openMenu =
+        
+        let settingsCommand =
+            UIKeyCommand(title: NSLocalizedString("Settings", comment: ""),
+                         image: nil,
+                         action: #selector(openSettings),
+                         input: "S",
+                         modifierFlags: .command,
+                         propertyList: nil)
+        let openSettings =
             UIMenu(title: "",
                    image: nil,
-                   identifier: UIMenu.Identifier("io.lucasfarah.Update.openMenu"),
+                   identifier: UIMenu.Identifier("io.lucasfarah.Update.menu"),
                    options: .displayInline,
-                   children: [openCommand])
-
-        builder.insertChild(openMenu, atStartOfMenu: .file)
+                   children: [reloadCommand, settingsCommand])
+        
+        builder.insertChild(openSettings, atStartOfMenu: .file)
+    }
+    
+    @objc func openSettings() {
+        RSSStore.instance.shouldOpenSettings = true
     }
     
     @objc func reloadAllPosts() {

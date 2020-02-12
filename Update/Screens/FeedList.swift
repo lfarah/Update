@@ -16,7 +16,7 @@ struct FeedList: View {
     @State var feedURL: String = ""
     @State var feedAddColor: Color = .blue
     @State var attempts: Int = 0
-    
+
     func filterFeeds(url: String?) -> FeedObject? {
         guard let url = url else { return nil }
         return store.feeds.first(where: { $0.url.absoluteString == url })
@@ -50,7 +50,12 @@ struct FeedList: View {
                             )
                         }
                         .navigationViewStyle(StackNavigationViewStyle())
+                        
                 }
+                .sheet(isPresented: self.$store.shouldOpenSettings) {
+                    SettingsView(fetchContentTime: self.$store.fetchContentTime, notificationsEnabled: self.$store.notificationsEnabled, shouldOpenSettings: self.$store.shouldOpenSettings)
+                }
+                
                 NewFeedPopup(feedURL: $feedURL, addFeedPressed: addFeed, feedAddColor: $feedAddColor, attempts: $attempts, show: $showNewFeedPopup)
             }
         }
@@ -97,5 +102,40 @@ struct Shake: GeometryEffect {
 struct FeedList_Previews: PreviewProvider {
     static var previews: some View {
         FeedList().environment(\.colorScheme, .dark)
+    }
+}
+
+struct SettingsView: View {
+    @Binding var fetchContentTime: String
+    @Binding var notificationsEnabled: Bool
+    @Binding var shouldOpenSettings: Bool
+    
+    var body: some View {
+        VStack {
+            NavigationView {
+                VStack {
+                    Form {
+                        Picker(selection: $fetchContentTime, label: Text("Fetch content time")) {
+                            ForEach(ContentTimeType.allCases, id: \.self.rawValue) { type in
+                                Text(type.rawValue)
+                            }
+                        }
+                        Toggle(isOn: $notificationsEnabled) {
+                            Text("Enable Notifications")
+                        }
+                    }
+                }
+                .navigationBarTitle(Text("Settings"))
+                .navigationBarItems(leading:
+                    Button(action: {
+                        self.shouldOpenSettings = false
+                    }, label: {
+                        Text("Close")
+                    }
+                    )
+                )
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
+        }
     }
 }

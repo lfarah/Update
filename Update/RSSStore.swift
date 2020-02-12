@@ -132,6 +132,30 @@ class Post: Codable, Identifiable, ObservableObject {
     }
 }
 
+enum ContentTimeType: String, CaseIterable {
+    case minute1 = "1 minute"
+    case minute10 = "10 minutes"
+    case minute30 = "30 minutes"
+    case minute60 = "1 hour"
+    case minute120 = "2 hours"
+    
+    var seconds: Int {
+        switch self {
+            
+        case .minute1:
+            return 1 * 60
+        case .minute10:
+            return 10 * 60
+        case .minute30:
+            return 30 * 60
+        case .minute60:
+            return 60 * 60
+        case .minute120:
+            return 120 * 60
+        }
+    }
+}
+
 class RSSStore: ObservableObject {
     
     static let instance = RSSStore()
@@ -140,13 +164,19 @@ class RSSStore: ObservableObject {
     @Published var shouldSelectFeed: Bool = false
     @Published var shouldSelectFeedURL: String?
     @Published var shouldSelectFeedObject: FeedObject?
+    @Published var shouldOpenSettings: Bool = false
+    @Published var notificationsEnabled: Bool = false
+    @Published var fetchContentTime: String = ContentTimeType.minute1.rawValue
+    @Published var fetchContentType: ContentTimeType = .minute1
 
     var notificationSubscriber: AnyCancellable?
     var notificationSubscriber2: AnyCancellable?
+    var fetchContentTimeSubscriber: AnyCancellable?
+    var fetchContentTimeSubscriber2: AnyCancellable?
 
     init() {
         self.feeds = UserDefaults.feeds
-        
+        // TODO: Fix this rx. I know I am making someone's eyes bleed right now, but I wanna get some basic functionality done before I clean up the code
         notificationSubscriber = $shouldSelectFeedURL
             .receive(on: DispatchQueue.main)
             .map { (url) -> FeedObject? in
@@ -163,6 +193,21 @@ class RSSStore: ObservableObject {
                 return object != nil
             }
             .assign(to: \.shouldSelectFeed, on: self)
+        
+        fetchContentTime = UserDefaults.fetchContentTime.rawValue
+        
+        fetchContentTimeSubscriber = $fetchContentTime
+            .receive(on: DispatchQueue.main)
+            .map { (fetchString) -> ContentTimeType in
+                return ContentTimeType(rawValue: fetchString) ?? .minute1
+            }
+            .assign(to: \.fetchContentType, on: self)
+        
+        fetchContentTimeSubscriber2 = $fetchContentType
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { (type) in
+                UserDefaults.fetchContentTime = type
+            })
     }
     
     func fetchContents(feedURL: URL, handler: @escaping (_ feed: Feed?) -> Void) {
