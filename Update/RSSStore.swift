@@ -86,7 +86,12 @@ class Post: Codable, Identifiable, ObservableObject {
     var description: String
     var url: URL
     var date: Date
-    var isRead: Bool = false {
+    
+    var isRead: Bool {
+        return readDate != nil
+    }
+    
+    var readDate: Date? {
         didSet {
             objectWillChange.send()
         }
@@ -168,11 +173,15 @@ class RSSStore: ObservableObject {
     @Published var notificationsEnabled: Bool = false
     @Published var fetchContentTime: String = ContentTimeType.minute1.rawValue
     @Published var fetchContentType: ContentTimeType = .minute1
+    @Published var totalUnreadPosts: Int = 0
+    @Published var totalReadPostsToday: Int = 0
 
     var notificationSubscriber: AnyCancellable?
     var notificationSubscriber2: AnyCancellable?
     var fetchContentTimeSubscriber: AnyCancellable?
     var fetchContentTimeSubscriber2: AnyCancellable?
+    var postReadCount: AnyCancellable?
+    var postReadCount2: AnyCancellable?
 
     init() {
         self.feeds = UserDefaults.feeds
@@ -208,6 +217,29 @@ class RSSStore: ObservableObject {
             .sink(receiveValue: { (type) in
                 UserDefaults.fetchContentTime = type
             })
+        
+        postReadCount = $feeds
+            .receive(on: DispatchQueue.main)
+            .map { (fetchString) -> Int in
+                return self.feeds.map({ (feed) -> Int in
+                    return feed.posts.filter { (post) -> Bool in
+                        guard let readDate = post.readDate else { return false }
+                        return Calendar.current.isDateInToday(readDate)
+                    }.count
+                }).reduce(0, +)
+            }
+        .assign(to: \.totalReadPostsToday, on: self)
+
+        postReadCount2 = $feeds
+            .receive(on: DispatchQueue.main)
+            .map { (fetchString) -> Int in
+                return self.feeds.map({ (feed) -> Int in
+                    return feed.posts.filter { $0.readDate == nil }.count
+                }).reduce(0, +)
+            }
+        .assign(to: \.totalUnreadPosts, on: self)
+        
+//        totalReadPostsToday =
     }
     
     func fetchContents(feedURL: URL, handler: @escaping (_ feed: Feed?) -> Void) {
@@ -222,6 +254,7 @@ class RSSStore: ObservableObject {
                     handler(feed)
                 }
             case .failure(let error):
+                handler(nil)
                 print(error)
             }
         }
@@ -280,13 +313,16 @@ extension RSSStore {
     func update(feedURL: URL, handler: @escaping (_ success: Bool) -> Void) {
         
         fetchContents(feedURL: feedURL) { (feedObject) in
-            handler(true)
             
             guard let feedObject = feedObject,
-                let feed = FeedObject(feed: feedObject, url: feedURL) else { return }
+                let feed = FeedObject(feed: feedObject, url: feedURL) else {
+                    handler(false)
+                    return
+                }
             self.feeds.append(feed)
             
             self.updateFeeds()
+            handler(true)
         }
     }
     
@@ -302,7 +338,7 @@ extension RSSStore {
     }
     
     func setPostRead(post: Post, feed: FeedObject) {
-        post.isRead = true
+        post.readDate = Date()
         if let index = feed.posts.firstIndex(where: {$0.url.absoluteString == post.url.absoluteString}) {
             feed.posts.remove(at: index)
             feed.posts.insert(post, at: index)

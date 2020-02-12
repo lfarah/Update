@@ -26,7 +26,9 @@ struct NewFeedPopup: View {
                     
                     HStack {
                         Spacer()
-                        Button(action: addFeedPressed) {
+                        Button(action: {
+                            self.show = false
+                        }) {
                             Image(systemName: "xmark")
                                 .foregroundColor(.white)
                                 .font(.system(size: 30))
