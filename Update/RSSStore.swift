@@ -238,8 +238,20 @@ class RSSStore: ObservableObject {
                 }).reduce(0, +)
             }
         .assign(to: \.totalUnreadPosts, on: self)
-        
-//        totalReadPostsToday =
+    }
+    
+    func refreshExtensionFeeds() {
+        print("New feeds (\(UserDefaults.newFeedsToAdd)")
+        for feed in UserDefaults.newFeedsToAdd {
+            addFeed(feedURL: feed) { (success) in
+                print("New feed (\(feed.absoluteString): \(success)")
+            }
+        }
+        UserDefaults.newFeedsToAdd = []
+    }
+    
+    func addFeedFromExtension(url: URL) {
+        UserDefaults.newFeedsToAdd = UserDefaults.newFeedsToAdd + [url]
     }
     
     func fetchContents(feedURL: URL, handler: @escaping (_ feed: Feed?) -> Void) {
