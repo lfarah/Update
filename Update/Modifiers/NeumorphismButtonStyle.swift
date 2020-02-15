@@ -14,6 +14,8 @@ extension Color {
     static let grayIcon = Color(red: 143/255, green: 157/255, blue: 188/255)
     static let grayActiveIcon = Color(red: 120/255, green: 140/255, blue: 160/255)
 }
+
+// https://gist.github.com/Julioacarrettoni/20987de19f2d64788f9636278ea27707
 struct NeumorphismButtonStyle: ButtonStyle {
     var value: CGFloat
     var radius: CGFloat = 15

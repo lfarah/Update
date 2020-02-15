@@ -12,6 +12,7 @@ extension Color {
     static let grayShadow = Color(red: 163/255, green: 177/255, blue: 198/255)
 }
 
+// https://gist.github.com/Julioacarrettoni/20987de19f2d64788f9636278ea27707
 struct NeumorphismShadow: ViewModifier {
     var top: Color = Color.shadowBottomNeo
     var bottom: Color = Color.shadowTopNeo
