@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C210736523F88C2500CDE5CD /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210736423F88C2500CDE5CD /* NavBar.swift */; };
+		C210736623F88C2500CDE5CD /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210736423F88C2500CDE5CD /* NavBar.swift */; };
+		C210736723F88C2500CDE5CD /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210736423F88C2500CDE5CD /* NavBar.swift */; };
 		C22D113E23F34C89009035F3 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = C22D113D23F34C89009035F3 /* FaviconFinder */; };
 		C22D114023F34D31009035F3 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = C22D113F23F34D31009035F3 /* FaviconFinder */; };
 		C22D114223F34D39009035F3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C22D114123F34D39009035F3 /* SDWebImageSwiftUI */; };
@@ -20,7 +23,7 @@
 		C22D114E23F49F5A009035F3 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D114B23F49F5A009035F3 /* TabBar.swift */; };
 		C22D116B23F5AA3A009035F3 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D116A23F5AA3A009035F3 /* ShareViewController.swift */; };
 		C22D116E23F5AA3A009035F3 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C22D116C23F5AA3A009035F3 /* MainInterface.storyboard */; };
-		C22D117223F5AA3A009035F3 /* ShareNewFeed.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C22D116823F5AA3A009035F3 /* ShareNewFeed.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C22D117223F5AA3A009035F3 /* ShareNewFeed.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C22D116823F5AA3A009035F3 /* ShareNewFeed.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C22D117823F5ACDC009035F3 /* GetURL.js in Resources */ = {isa = PBXBuildFile; fileRef = C22D117723F5ACDC009035F3 /* GetURL.js */; };
 		C22D117923F5D30B009035F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C28FD91F23F0913F0054BAD1 /* Assets.xcassets */; };
 		C22D117E23F5D9FF009035F3 /* ShareNewFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D117C23F5D953009035F3 /* ShareNewFeedView.swift */; };
@@ -60,6 +63,7 @@
 		C28FD96423F0F0670054BAD1 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = C28FD96323F0F0670054BAD1 /* FeedKit */; };
 		C28FD96623F0F0670054BAD1 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C28FD96523F0F0670054BAD1 /* SDWebImageSwiftUI */; };
 		C29B590423F1C24300CB8F08 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B590323F1C24300CB8F08 /* FilterView.swift */; };
+		C2C5936D23F88FF40018482A /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210736423F88C2500CDE5CD /* NavBar.swift */; };
 		C2C9C2C923F1C33800F84042 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B590323F1C24300CB8F08 /* FilterView.swift */; };
 		C2C9C2CA23F1C33800F84042 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B590323F1C24300CB8F08 /* FilterView.swift */; };
 		C2C9C2CC23F1C36E00F84042 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2CB23F1C36E00F84042 /* Extensions.swift */; };
@@ -121,6 +125,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C210736423F88C2500CDE5CD /* NavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBar.swift; sourceTree = "<group>"; };
 		C22D114723F3B1DD009035F3 /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
 		C22D114B23F49F5A009035F3 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		C22D116823F5AA3A009035F3 /* ShareNewFeed.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareNewFeed.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,6 +330,7 @@
 				C2E3A1F623F348C000F0B7FB /* NewFeedPopup.swift */,
 				C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */,
 				C28FD95023F09AC40054BAD1 /* SafariView.swift */,
+				C210736423F88C2500CDE5CD /* NavBar.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -523,6 +529,7 @@
 				C22D118223F5DD39009035F3 /* RSSStore.swift in Sources */,
 				C22D118123F5DA50009035F3 /* ShareNewFeedView.swift in Sources */,
 				C22D118923F5DD7B009035F3 /* Extensions.swift in Sources */,
+				C2C5936D23F88FF40018482A /* NavBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +548,7 @@
 				C2C9C2CE23F1C39C00F84042 /* PostCell.swift in Sources */,
 				C22D114C23F49F5A009035F3 /* TabBar.swift in Sources */,
 				C28FD94D23F091850054BAD1 /* RSSStore.swift in Sources */,
+				C210736523F88C2500CDE5CD /* NavBar.swift in Sources */,
 				C2E3A1F723F348C000F0B7FB /* NewFeedPopup.swift in Sources */,
 				C22D114823F3B1DD009035F3 /* GoalsView.swift in Sources */,
 				C22D117E23F5D9FF009035F3 /* ShareNewFeedView.swift in Sources */,
@@ -559,6 +567,7 @@
 				C28FD96023F0EE4E0054BAD1 /* RSSStore.swift in Sources */,
 				C28FD95E23F0EE4B0054BAD1 /* SafariView.swift in Sources */,
 				C2CEE18B23F34ACD007DFB9B /* NewFeedPopup.swift in Sources */,
+				C210736623F88C2500CDE5CD /* NavBar.swift in Sources */,
 				C2C9C2D123F1C3EB00F84042 /* Extensions.swift in Sources */,
 				C22D118D23F5E713009035F3 /* ShareViewController.swift in Sources */,
 				C2C9C2DD23F1E2DF00F84042 /* BackButton.swift in Sources */,
@@ -582,6 +591,7 @@
 				C28FD96123F0EE4F0054BAD1 /* RSSStore.swift in Sources */,
 				C28FD95F23F0EE4C0054BAD1 /* SafariView.swift in Sources */,
 				C2CEE18C23F34ACE007DFB9B /* NewFeedPopup.swift in Sources */,
+				C210736723F88C2500CDE5CD /* NavBar.swift in Sources */,
 				C2C9C2D223F1C3EC00F84042 /* Extensions.swift in Sources */,
 				C22D118C23F5E712009035F3 /* ShareViewController.swift in Sources */,
 				C2C9C2DE23F1E2DF00F84042 /* BackButton.swift in Sources */,
@@ -601,6 +611,7 @@
 /* Begin PBXTargetDependency section */
 		C22D117123F5AA3A009035F3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = C22D116723F5AA3A009035F3 /* ShareNewFeed */;
 			targetProxy = C22D117023F5AA3A009035F3 /* PBXContainerItemProxy */;
 		};

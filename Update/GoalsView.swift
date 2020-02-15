@@ -41,29 +41,32 @@ struct GoalsView: View {
                         
                         Spacer()
                     }.padding(.horizontal, 16)
-                    Spacer()
+                    .padding(.top, 80)
+                
+                    ExpandableGoalCard(goalName: "Inbox Zero",
+                                   showDetail: $showGoalDetail,
+                                   show: $showGoalDetail,
+                                   goalPercentage: calculatePercentage(),
+                                   readPostCount: $store.totalReadPostsToday,
+                                   unreadPostCount: $store.totalUnreadPosts)
+                    .padding(.top, 80)
                 }
-                
-                ExpandableGoalCard(showDetail: $showGoalDetail)
-                
-                RingGraphView(show: $showGoalDetail, goalPercentage: calculatePercentage())
-                    .offset(y: showGoalDetail ? 200 : screen.height)
-                    .animation(Animation.spring(response: 0.3, dampingFraction: 0.7, blendDuration: 0))
 
-                InformationView(show: $showGoalDetail, readPostCount: $store.totalReadPostsToday, unreadPostCount: $store.totalUnreadPosts)
-                
                 NewGoalPopup(show: $showNewGoalPopup, goalTypeStr: $newGoalTypeSelection)
                     .offset(x: 0, y: showNewGoalPopup ? 200 : screen.height)
 
-//            }
-//            .navigationBarTitle("Goals")
-        }
+            }
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct GoalsView_Previews: PreviewProvider {
     static var previews: some View {
-        GoalsView()
+        Group {
+            GoalsView().environment(\.colorScheme, .light)
+            GoalsView().environment(\.colorScheme, .dark)
+
+        }
     }
 }
 
@@ -111,41 +114,41 @@ struct InformationRow: View {
     var body: some View {
         VStack {
             Text(text)
-                .font(.system(size: 32, weight: .heavy))
-                .foregroundColor(.white)
+                .font(.system(size: 20, weight: .regular))
+                .foregroundColor(Color.gray)
         }
     }
 }
 
 struct InformationView: View {
-    @Binding var show: Bool
     @Binding var readPostCount: Int
     @Binding var unreadPostCount: Int
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
+            Spacer()
+
             HStack {
                 InformationRow(text: "Read posts today:")
-                    .offset(y: show ? 100 : -screen.height)
                 
                 Spacer()
                 
                 InformationRow(text: "\(readPostCount)")
-                    .offset(y: show ? 100 : -screen.height)
             }
-            
+            .padding(.horizontal)
+
             HStack {
                 InformationRow(text: "Unread posts left:")
-                    .offset(y: show ? 100 : -screen.height)
                 
                 Spacer()
                 
                 InformationRow(text: "\(unreadPostCount)")
-                    .offset(y: show ? 100 : -screen.height)
             }
-            
+            .padding(.horizontal)
+
             Spacer()
-        }.padding(.horizontal)
+        }
+        .frame(maxWidth: screen.width - 64, maxHeight: 120)
     }
 }
 
@@ -153,10 +156,10 @@ struct RingGraphView: View {
     @Binding var show: Bool
     @State var goalPercentage: CGFloat
 
-    var width: CGFloat = 200
-    var height: CGFloat = 200
+    var width: CGFloat = 100
+    var height: CGFloat = 100
 
-    var color = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
+    var color = #colorLiteral(red: 0.1527788341, green: 0.7198211551, blue: 0.3009665906, alpha: 1)
 
     var body: some View {
         let multiplier = width / 44
@@ -164,26 +167,28 @@ struct RingGraphView: View {
 
         return ZStack {
             Circle()
-                .stroke(Color.black.opacity(0.1), style: StrokeStyle(lineWidth: 5 * multiplier))
+                .stroke(Color("ShadowBottomNeo").opacity(0.5), style: StrokeStyle(lineWidth: 5 * multiplier))
                 .frame(width: width, height: height)
-            
+
             
             Circle()
                 .trim(from: show ? progress : 1, to: 1)
                 .stroke(
                     Color(color),
-                    style: StrokeStyle(lineWidth: 5 * multiplier, lineCap: .round, lineJoin: .round, miterLimit: .infinity, dash: [20, 0], dashPhase: 0)
+                    style: StrokeStyle(lineWidth: 2 * multiplier, lineCap: .round, lineJoin: .round, miterLimit: .infinity, dash: [20, 0], dashPhase: 0)
                 )
                 .animation(Animation.easeIn.delay(0.5))
                 .rotationEffect(Angle(degrees: 90))
                 .rotation3DEffect(Angle(degrees: 180), axis: (x: 1, y: 0, z: 0))
                 .foregroundColor(.orange)
-                .frame(width: width, height: height)
-            
+                .frame(width: width * 0.95, height: height * 0.95)
+                .shadow(color: Color(color), radius: 10, x: 0, y: 0)
+                .shadow(color: Color("ShadowBottomNeo").opacity(1), radius: 5, x: 6, y: 6)
+
             Text("\(Int(goalPercentage))%")
-                .font(.system(size: 14 * multiplier))
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+                .font(.system(size: 12 * multiplier))
+                .fontWeight(.regular)
+                .foregroundColor(Color.gray)
                 .onTapGesture {
                     self.show.toggle()
             }
@@ -192,25 +197,60 @@ struct RingGraphView: View {
 }
 
 struct ExpandableGoalCard: View {
+    var goalName: String
     @Binding var showDetail: Bool
-    
+    @Binding var show: Bool
+    @State var goalPercentage: CGFloat
+    @Binding var readPostCount: Int
+    @Binding var unreadPostCount: Int
+
     var body: some View {
         VStack {
-            Text("Inbox Zero")
-                .font(.system(.title))
-                .frame(maxWidth: showDetail ? .infinity : screen.width - 64,
-                       maxHeight: showDetail ? .infinity : 120)
-                .background(Color.blue)
-                .clipShape(RoundedRectangle(cornerRadius: self.showDetail ? 0 : 20))
-                .foregroundColor(.white)
+            ZStack {
+                    
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .frame(maxWidth: screen.width - 64,
+                               maxHeight: showDetail ? 300 : 120)
+                        .foregroundColor(Color("BackgroundNeo"))
+                    HStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(Color.green.opacity(0.5))
+                            .frame(maxWidth: !showDetail ? ((screen.width - 64) * (goalPercentage / 100)) : 0,
+                               maxHeight: showDetail ? 300 : 120)
+                        
+                        Spacer()
+                    }
+                    .padding(.leading, 32)
+
+                }
+                .offset(y: showDetail ? 110 : 0)
+                .shadow(color: Color("ShadowTopNeo").opacity(0.8), radius: 5, x: -6, y: -6)
+                .shadow(color: Color("ShadowBottomNeo").opacity(1), radius: 5, x: 6, y: 6)
+                .foregroundColor(Color(.label))
                 .edgesIgnoringSafeArea(.all)
                 .animation(.spring(response: 0.3, dampingFraction: 0.7, blendDuration: 0))
                 .onTapGesture {
                     self.showDetail.toggle()
                 }
-            if !showDetail {
-                Spacer()
+
+                
+                VStack {
+                    RingGraphView(show: $show, goalPercentage: goalPercentage)
+                    
+                    InformationView(readPostCount: $readPostCount, unreadPostCount: $unreadPostCount)
+                }
+                .offset(y: show ? 170 : screen.height)
+
+                VStack {
+                    Text(goalName)
+                        .font(.system(.title))
+                        .foregroundColor(Color.gray)
+                    .offset(y: showDetail ? 20 : 0)
+                }
+
             }
+                Spacer()
         }
         .padding(.top, showDetail ? 0 : 60)
     }

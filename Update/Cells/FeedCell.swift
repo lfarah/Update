@@ -16,23 +16,29 @@ struct FeedCell: View {
         HStack {
 
             WebImage(url: feed.imageURL)
+                .renderingMode(.original)
                 .resizable()
                 .placeholder {
                     Rectangle().foregroundColor(.gray)
                 }
                 .frame(width: 40, height: 40)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
-            
+                .padding(.leading)
+                
             VStack(alignment: .leading) {
                 Text(feed.name)
                     .font(.subheadline)
+                    .foregroundColor(Color(.label))
+                
                 Text("\(feed.posts.filter { !$0.isRead }.count) unread posts")
                     .font(.footnote)
+                .foregroundColor(.gray)
+
             }
 
             Spacer()
         }
-        .padding(.horizontal)
+
     }
 }
 

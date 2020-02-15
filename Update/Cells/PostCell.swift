@@ -16,10 +16,10 @@ struct PostCell: View {
         VStack(alignment: .leading, spacing: 16) {
             Text(post.title)
                 .font(.headline)
-                .foregroundColor(Color(.darkText))
+                .foregroundColor(Color(.label))
             Text(post.description)
                 .font(.subheadline)
-                .foregroundColor(Color(.darkText))
+                .foregroundColor(Color(.label))
             
             HStack {
                 Text(formatDate(with: post.date))
@@ -41,9 +41,12 @@ struct PostCell: View {
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(radius: 5)
+        .frame(minHeight: 100)
+        .padding(.trailing)
+        .background(Color("BackgroundNeo"))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -4, y: -4)
+        .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 4, y: 4)
     }
     
     func formatDate(with date: Date) -> String {

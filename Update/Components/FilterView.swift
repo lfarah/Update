@@ -19,8 +19,9 @@ struct FilterView: View {
     var markedAllPostsRead: (() -> Void)?
     
     var body: some View {
-            VStack(spacing: 16) {
+        VStack(alignment: .center, spacing: 16) {
                 HStack() {
+                    Spacer()
                     Text(FilterType.all.rawValue)
                         .padding()
                         .foregroundColor(Color(selectedFilter == .all ? .white : .label))
@@ -38,6 +39,8 @@ struct FilterView: View {
                         .onTapGesture {
                             self.selectedFilter = .unreadOnly
                     }
+                    Spacer()
+
                 }
                 
                 Button(action: {

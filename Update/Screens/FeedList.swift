@@ -14,7 +14,7 @@ struct FeedList: View {
     @ObservedObject var store = RSSStore.instance
     @State var showNewFeedPopup = false
     @State var feedURL: String = ""
-    @State var feedAddColor: Color = .blue
+    @State var feedAddColor: Color = Color("BackgroundNeo")
     @State var attempts: Int = 0
 
     func filterFeeds(url: String?) -> FeedObject? {
@@ -25,41 +25,67 @@ struct FeedList: View {
     var body: some View {
         NavigationView {
             ZStack {
+                Color("BackgroundNeo")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                
                 List {
+                    
+                    NewFeedPopup(feedURL: $feedURL, addFeedPressed: addFeed, feedAddColor: $feedAddColor, attempts: $attempts, show: $showNewFeedPopup)
+                        .padding()
+                        .listRowBackground(Color("BackgroundNeo"))
+                    
                     ForEach(store.feeds.indices, id: \.self) { index in
                         NavigationLink(destination: PostList(feed: self.$store.feeds[index])) {
                             FeedCell(feed: self.store.feeds[index])
                         }
+                            
+                        .foregroundColor(.black)
+                        .padding(.trailing)
+                        .frame(minHeight: 100)
+                        .background(Color("BackgroundNeo"))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -4, y: -4)
+                        .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 4, y: 4)
+                        
                     }.onDelete { index in
                         self.store.removeFeed(at: index.first!)
-                    }
+                    }.listRowBackground(Color("BackgroundNeo"))
+
                 }
-                .navigationBarTitle("Feeds")
-                .navigationBarItems(leading: EditButton(), trailing: Button(action: openNewFeed) {
-                    Text("New Feed")
-                })
-                    .sheet(isPresented: self.$store.shouldSelectFeed) {
-                        NavigationView {
-                            PostList(feed: Binding(self.$store.shouldSelectFeedObject)!)
-                                .navigationBarItems(leading:
-                                    Button(action: {
-                                        self.store.shouldSelectFeed = false
-                                    }, label: {
-                                        Text("Close")
-                                    })
-                            )
-                        }
-                        .navigationViewStyle(StackNavigationViewStyle())
-                        
+                .background(Color.clear)
+                .padding(.top, 100)
+                .sheet(isPresented: self.$store.shouldSelectFeed) {
+                    NavigationView {
+                        PostList(feed: Binding(self.$store.shouldSelectFeedObject)!)
+                            .navigationBarItems(leading:
+                                Button(action: {
+                                    self.store.shouldSelectFeed = false
+                                }, label: {
+                                    Text("Close")
+                                })
+                        )
+                    }
+                    .navigationViewStyle(StackNavigationViewStyle())
+                    
                 }
                 .sheet(isPresented: self.$store.shouldOpenSettings) {
                     SettingsView(fetchContentTime: self.$store.fetchContentTime, notificationsEnabled: self.$store.notificationsEnabled, shouldOpenSettings: self.$store.shouldOpenSettings)
                 }
                 
-                NewFeedPopup(feedURL: $feedURL, addFeedPressed: addFeed, feedAddColor: $feedAddColor, attempts: $attempts, show: $showNewFeedPopup)
+                NavBar(title: "Feeds",
+                       openNewFeed: openNewFeed,
+                       showNewFeedPopup: $showNewFeedPopup,
+                       showFilter: .constant(false),
+                       buttons: [.edit, .add])
+                
             }
-        }
-        .navigationViewStyle(DoubleColumnNavigationViewStyle())
+            .navigationBarTitle("")
+            .navigationBarBackButtonHidden(true)
+            .navigationBarHidden(true)
+            .edgesIgnoringSafeArea(.all)
+            
+        }        .navigationViewStyle(DoubleColumnNavigationViewStyle())
+        
     }
     
     func openNewFeed() {
@@ -80,7 +106,7 @@ struct FeedList: View {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.feedAddColor = .blue
+                self.feedAddColor = Color("BackgroundNeo")
             }
         }
     }
@@ -101,7 +127,7 @@ struct Shake: GeometryEffect {
 }
 struct FeedList_Previews: PreviewProvider {
     static var previews: some View {
-        FeedList().environment(\.colorScheme, .dark)
+        FeedList().environment(\.colorScheme, .light)
     }
 }
 

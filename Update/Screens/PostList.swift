@@ -12,24 +12,28 @@ import FeedKit
 
 struct PostList: View {
     @Binding var feed: FeedObject
-    
+
     @ObservedObject var store = RSSStore.instance
     @State var showingDetail = false
     @State var selectedPost: Post?
     @State var showFilter = false
     @State var filterType = FilterType.unreadOnly
-    
+    @Environment(\.presentationMode) var presentationMode
+
     var sortedPosts: [Post] {
         return feed.posts.filter { self.filterType == .unreadOnly ? !$0.isRead : true }
     }
     
     var body: some View {
-        VStack(spacing: 16) {
-            FilterView(selectedFilter: $filterType, showFilter: $showFilter, markedAllPostsRead: {
-                self.store.markAllPostsRead(feed: self.feed)
-            })
-            
+        ZStack {
+            Color("BackgroundNeo")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
             List {
+                FilterView(selectedFilter: $filterType, showFilter: $showFilter, markedAllPostsRead: {
+                    self.store.markAllPostsRead(feed: self.feed)
+                }).listRowBackground(Color("BackgroundNeo"))
+                
                 ForEach(sortedPosts.indices, id: \.self) { index in
                     Button(action: {
                         self.selectedPost = self.sortedPosts[index]
@@ -37,37 +41,31 @@ struct PostList: View {
                         self.store.setPostRead(post: self.sortedPosts[index], feed: self.feed)
                     })  {
                         PostCell(post: self.sortedPosts[index])
-                    }
+                    }.listRowBackground(Color("BackgroundNeo"))
                 }
             }
+            .background(Color.clear)
+            .padding(.top, 150)
             .sheet(isPresented: self.$showingDetail) {
                 SafariView(url: self.selectedPost!.url)
             }
-            .padding(.horizontal, 16)
+            
+            NavBar(title: "Latest posts",
+                   updatePosts: updatePosts,
+                   goBack: goBack,
+                   showNewFeedPopup: .constant(false),
+                   showFilter: $showFilter,
+                   buttons: [.filter, .reload])
+            
         }
-        .navigationBarItems(trailing:
-            HStack {
-                
-                Button(action: { self.showFilter.toggle() }) {
-                    Image(systemName: "slider.horizontal.3")
-                        .resizable()
-                        .foregroundColor(Color(.label))
-                        .frame(width: 29.4, height: 25.2)
-                        .padding(.all, 8)
-                }
-                
-                Button(action: updatePosts) {
-                    Image(systemName: "arrow.2.squarepath")
-                        .resizable()
-                        .foregroundColor(Color(.label))
-                        .frame(width: 29.4, height: 25.2)
-                        .padding(.all, 8)
-                }
-            }
-        )
-            .navigationBarTitle("Latest posts")
-            .background(Color(.systemBackground))
-        
+        .navigationBarTitle("")
+        .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
+        .edgesIgnoringSafeArea(.all)
+    }
+    
+    func goBack() {
+        presentationMode.wrappedValue.dismiss()
     }
     
     func updatePosts() {
