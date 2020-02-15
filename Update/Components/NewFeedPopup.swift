@@ -37,10 +37,8 @@ struct NewFeedPopup: View {
                     .foregroundColor(.gray)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
-                    .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
-                
-            }
+            }.buttonStyle(NeumorphismButtonStyle(value: 8))
+
             
             Spacer()
         }
@@ -48,8 +46,7 @@ struct NewFeedPopup: View {
         .frame(height: show ? nil : 0)
         .background(feedAddColor)
         .clipShape(RoundedRectangle(cornerRadius: 8))
-        .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
-        .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
+        .modifier(NeumorphismShadow())
         .opacity(show ? 1 : 0)
         .animation(Animation.easeIn(duration: 0.1))
         .modifier(Shake(animatableData: CGFloat(attempts)))

@@ -62,8 +62,7 @@ struct NavBar: View {
                         .frame(height: 30)
                         .background(Color.backgroundNeo)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
-                        .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
-                        .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
+                        .modifier(NeumorphismShadow())
                 }
                 
                 if buttons.contains(.add) {
@@ -77,9 +76,8 @@ struct NavBar: View {
                             .frame(width: 30, height: 30)
                             .background(Color.backgroundNeo)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
-                            .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
                     }
+                    .buttonStyle(NeumorphismButtonStyle(value: 8))
                 }
                 
                 if buttons.contains(.filter) {
@@ -91,11 +89,7 @@ struct NavBar: View {
                             .padding(.all, 8)
                             .background(Color.backgroundNeo)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
-                            .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
-
-                    }
-                    
+                    }.buttonStyle(NeumorphismButtonStyle(value: 8))
                 }
                 
                 if buttons.contains(.reload) {
@@ -108,9 +102,7 @@ struct NavBar: View {
                             .padding(.all, 8)
                             .background(Color.backgroundNeo)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
-                            .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
-                    }
+                    }.buttonStyle(NeumorphismButtonStyle(value: 8))
                 }
             }
             .background(Color.backgroundNeo)

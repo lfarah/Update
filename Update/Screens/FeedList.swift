@@ -44,9 +44,8 @@ struct FeedList: View {
                         .frame(minHeight: 100)
                         .background(Color.backgroundNeo)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .shadow(color: Color.shadowTopNeo, radius: 5, x: -4, y: -4)
-                        .shadow(color: Color.shadowBottomNeo, radius: 5, x: 4, y: 4)
-                        
+                        .modifier(NeumorphismShadow())
+
                     }.onDelete { index in
                         self.store.removeFeed(at: index.first!)
                     }.listRowBackground(Color.backgroundNeo)
@@ -66,7 +65,6 @@ struct FeedList: View {
                         )
                     }
                     .navigationViewStyle(StackNavigationViewStyle())
-                    
                 }
                 .sheet(isPresented: self.$store.shouldOpenSettings) {
                     SettingsView(fetchContentTime: self.$store.fetchContentTime, notificationsEnabled: self.$store.notificationsEnabled, shouldOpenSettings: self.$store.shouldOpenSettings)
@@ -77,14 +75,13 @@ struct FeedList: View {
                        showNewFeedPopup: $showNewFeedPopup,
                        showFilter: .constant(false),
                        buttons: [.edit, .add])
-                
             }
             .navigationBarTitle("")
             .navigationBarBackButtonHidden(true)
             .navigationBarHidden(true)
             .edgesIgnoringSafeArea(.all)
-            
-        }        .navigationViewStyle(DoubleColumnNavigationViewStyle())
+        }
+        .navigationViewStyle(DoubleColumnNavigationViewStyle())
         
     }
     
@@ -94,7 +91,15 @@ struct FeedList: View {
     
     func addFeed() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        guard let url = URL(string: feedURL) else { return }
+        guard let url = URL(string: feedURL) else {
+            self.attempts += 1
+            self.feedAddColor = Color.red
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.feedAddColor = Color.backgroundNeo
+            }
+            return
+        }
         
         store.addFeed(feedURL: url) { success in
             self.feedAddColor = success ? Color.green : Color.red
@@ -128,40 +133,5 @@ struct Shake: GeometryEffect {
 struct FeedList_Previews: PreviewProvider {
     static var previews: some View {
         FeedList().environment(\.colorScheme, .light)
-    }
-}
-
-struct SettingsView: View {
-    @Binding var fetchContentTime: String
-    @Binding var notificationsEnabled: Bool
-    @Binding var shouldOpenSettings: Bool
-    
-    var body: some View {
-        VStack {
-            NavigationView {
-                VStack {
-                    Form {
-                        Picker(selection: $fetchContentTime, label: Text("Fetch content time")) {
-                            ForEach(ContentTimeType.allCases, id: \.self.rawValue) { type in
-                                Text(type.rawValue)
-                            }
-                        }
-                        Toggle(isOn: $notificationsEnabled) {
-                            Text("Enable Notifications")
-                        }
-                    }
-                }
-                .navigationBarTitle(Text("Settings"))
-                .navigationBarItems(leading:
-                    Button(action: {
-                        self.shouldOpenSettings = false
-                    }, label: {
-                        Text("Close")
-                    }
-                    )
-                )
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
-        }
     }
 }

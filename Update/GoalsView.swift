@@ -183,7 +183,7 @@ struct RingGraphView: View {
                 .foregroundColor(.orange)
                 .frame(width: width * 0.95, height: height * 0.95)
                 .shadow(color: Color(color), radius: 10, x: 0, y: 0)
-                .shadow(color: Color("ShadowBottomNeo").opacity(1), radius: 5, x: 6, y: 6)
+                .modifier(NeumorphismShadow())
 
             Text("\(Int(goalPercentage))%")
                 .font(.system(size: 12 * multiplier))
@@ -225,8 +225,7 @@ struct ExpandableGoalCard: View {
 
                 }
                 .offset(y: showDetail ? 110 : 0)
-                .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
-                .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
+                .modifier(NeumorphismShadow())
                 .foregroundColor(Color(.label))
                 .edgesIgnoringSafeArea(.all)
                 .animation(.spring(response: 0.3, dampingFraction: 0.7, blendDuration: 0))

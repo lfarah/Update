@@ -45,8 +45,7 @@ struct PostCell: View {
         .padding(.trailing)
         .background(Color.backgroundNeo)
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .shadow(color: Color.shadowTopNeo, radius: 5, x: -4, y: -4)
-        .shadow(color: Color.shadowBottomNeo, radius: 5, x: 4, y: 4)
+        .modifier(NeumorphismShadow())
     }
     
     func formatDate(with date: Date) -> String {
