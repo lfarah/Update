@@ -14,7 +14,7 @@ struct FeedList: View {
     @ObservedObject var store = RSSStore.instance
     @State var showNewFeedPopup = false
     @State var feedURL: String = ""
-    @State var feedAddColor: Color = Color("BackgroundNeo")
+    @State var feedAddColor: Color = Color.backgroundNeo
     @State var attempts: Int = 0
 
     func filterFeeds(url: String?) -> FeedObject? {
@@ -25,14 +25,14 @@ struct FeedList: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color("BackgroundNeo")
+                Color.backgroundNeo
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 List {
                     
                     NewFeedPopup(feedURL: $feedURL, addFeedPressed: addFeed, feedAddColor: $feedAddColor, attempts: $attempts, show: $showNewFeedPopup)
                         .padding()
-                        .listRowBackground(Color("BackgroundNeo"))
+                        .listRowBackground(Color.backgroundNeo)
                     
                     ForEach(store.feeds.indices, id: \.self) { index in
                         NavigationLink(destination: PostList(feed: self.$store.feeds[index])) {
@@ -42,14 +42,14 @@ struct FeedList: View {
                         .foregroundColor(.black)
                         .padding(.trailing)
                         .frame(minHeight: 100)
-                        .background(Color("BackgroundNeo"))
+                        .background(Color.backgroundNeo)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -4, y: -4)
-                        .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 4, y: 4)
+                        .shadow(color: Color.shadowTopNeo, radius: 5, x: -4, y: -4)
+                        .shadow(color: Color.shadowBottomNeo, radius: 5, x: 4, y: 4)
                         
                     }.onDelete { index in
                         self.store.removeFeed(at: index.first!)
-                    }.listRowBackground(Color("BackgroundNeo"))
+                    }.listRowBackground(Color.backgroundNeo)
 
                 }
                 .background(Color.clear)
@@ -106,7 +106,7 @@ struct FeedList: View {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.feedAddColor = Color("BackgroundNeo")
+                self.feedAddColor = Color.backgroundNeo
             }
         }
     }

@@ -37,8 +37,8 @@ struct NewFeedPopup: View {
                     .foregroundColor(.gray)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -6, y: -6)
-                    .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 6, y: 6)
+                    .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
+                    .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
                 
             }
             
@@ -48,8 +48,8 @@ struct NewFeedPopup: View {
         .frame(height: show ? nil : 0)
         .background(feedAddColor)
         .clipShape(RoundedRectangle(cornerRadius: 8))
-        .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -6, y: -6)
-        .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 6, y: 6)
+        .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
+        .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
         .opacity(show ? 1 : 0)
         .animation(Animation.easeIn(duration: 0.1))
         .modifier(Shake(animatableData: CGFloat(attempts)))
@@ -61,6 +61,6 @@ struct NewFeedPopup_Previews: PreviewProvider {
     static var previews: some View {
         NewFeedPopup(feedURL: .constant("https://www.google.com"), addFeedPressed: {
             
-        }, feedAddColor: .constant(Color("BackgroundNeo")), attempts: .constant(1), show: .constant(true))
+        }, feedAddColor: .constant(Color.backgroundNeo), attempts: .constant(1), show: .constant(true))
     }
 }

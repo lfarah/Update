@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension Date {
     func toString(format: String) -> String {
@@ -53,6 +54,19 @@ extension UserDefaults {
             UserDefaults(suiteName: "group.siligg")?.set(newValue.map { $0.absoluteString }, forKey: "newFeedsToAdd")
         }
     }
+}
 
+extension Color {
+    
+    static var backgroundNeo: Color {
+        return Color("BackgroundNeo")
+    }
 
+    static var shadowTopNeo: Color {
+        return Color("ShadowTopNeo")
+    }
+
+    static var shadowBottomNeo: Color {
+        return Color("ShadowBottomNeo")
+    }
 }

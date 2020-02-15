@@ -212,7 +212,7 @@ struct ExpandableGoalCard: View {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(maxWidth: screen.width - 64,
                                maxHeight: showDetail ? 300 : 120)
-                        .foregroundColor(Color("BackgroundNeo"))
+                        .foregroundColor(Color.backgroundNeo)
                     HStack {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(Color.green.opacity(0.5))
@@ -225,8 +225,8 @@ struct ExpandableGoalCard: View {
 
                 }
                 .offset(y: showDetail ? 110 : 0)
-                .shadow(color: Color("ShadowTopNeo").opacity(0.8), radius: 5, x: -6, y: -6)
-                .shadow(color: Color("ShadowBottomNeo").opacity(1), radius: 5, x: 6, y: 6)
+                .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
+                .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
                 .foregroundColor(Color(.label))
                 .edgesIgnoringSafeArea(.all)
                 .animation(.spring(response: 0.3, dampingFraction: 0.7, blendDuration: 0))

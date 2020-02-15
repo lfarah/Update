@@ -43,10 +43,10 @@ struct PostCell: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .frame(minHeight: 100)
         .padding(.trailing)
-        .background(Color("BackgroundNeo"))
+        .background(Color.backgroundNeo)
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -4, y: -4)
-        .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 4, y: 4)
+        .shadow(color: Color.shadowTopNeo, radius: 5, x: -4, y: -4)
+        .shadow(color: Color.shadowBottomNeo, radius: 5, x: 4, y: 4)
     }
     
     func formatDate(with date: Date) -> String {

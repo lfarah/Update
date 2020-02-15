@@ -60,10 +60,10 @@ struct NavBar: View {
                         .padding(.vertical)
                         .padding(.horizontal, 8)
                         .frame(height: 30)
-                        .background(Color("BackgroundNeo"))
+                        .background(Color.backgroundNeo)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
-                        .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -6, y: -6)
-                        .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 6, y: 6)
+                        .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
+                        .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
                 }
                 
                 if buttons.contains(.add) {
@@ -75,10 +75,10 @@ struct NavBar: View {
                             .rotationEffect(Angle(degrees: showNewFeedPopup ? 45 : 0))
                             .animation(.default)
                             .frame(width: 30, height: 30)
-                            .background(Color("BackgroundNeo"))
+                            .background(Color.backgroundNeo)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -6, y: -6)
-                            .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 6, y: 6)
+                            .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
+                            .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
                     }
                 }
                 
@@ -89,11 +89,11 @@ struct NavBar: View {
                             .foregroundColor(Color(.label))
                             .frame(width: 29.4, height: 25.2)
                             .padding(.all, 8)
-                            .background(Color("BackgroundNeo"))
+                            .background(Color.backgroundNeo)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -6, y: -6)
-                            .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 6, y: 6)
-                        
+                            .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
+                            .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
+
                     }
                     
                 }
@@ -106,15 +106,14 @@ struct NavBar: View {
                             .foregroundColor(Color(.label))
                             .frame(width: 29.4, height: 25.2)
                             .padding(.all, 8)
-                            .background(Color("BackgroundNeo"))
+                            .background(Color.backgroundNeo)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .shadow(color: Color("ShadowTopNeo"), radius: 5, x: -6, y: -6)
-                            .shadow(color: Color("ShadowBottomNeo"), radius: 5, x: 6, y: 6)
-                        
+                            .shadow(color: Color.shadowTopNeo, radius: 5, x: -6, y: -6)
+                            .shadow(color: Color.shadowBottomNeo, radius: 5, x: 6, y: 6)
                     }
                 }
             }
-            .background(Color("BackgroundNeo"))
+            .background(Color.backgroundNeo)
             .padding(.horizontal)
             
             Spacer()

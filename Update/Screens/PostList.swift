@@ -26,13 +26,13 @@ struct PostList: View {
     
     var body: some View {
         ZStack {
-            Color("BackgroundNeo")
+            Color.backgroundNeo
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             List {
                 FilterView(selectedFilter: $filterType, showFilter: $showFilter, markedAllPostsRead: {
                     self.store.markAllPostsRead(feed: self.feed)
-                }).listRowBackground(Color("BackgroundNeo"))
+                }).listRowBackground(Color.backgroundNeo)
                 
                 ForEach(sortedPosts.indices, id: \.self) { index in
                     Button(action: {
@@ -41,7 +41,7 @@ struct PostList: View {
                         self.store.setPostRead(post: self.sortedPosts[index], feed: self.feed)
                     })  {
                         PostCell(post: self.sortedPosts[index])
-                    }.listRowBackground(Color("BackgroundNeo"))
+                    }.listRowBackground(Color.backgroundNeo)
                 }
             }
             .background(Color.clear)
