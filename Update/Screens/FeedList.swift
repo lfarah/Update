@@ -11,7 +11,7 @@ import Combine
 import SDWebImageSwiftUI
 
 struct FeedList: View {
-    @ObservedObject var store = RSSStore.instance
+    @EnvironmentObject var store: RSSStore
     @State var showNewFeedPopup = false
     @State var feedURL: String = ""
     @State var feedAddColor: Color = Color.backgroundNeo
@@ -35,7 +35,7 @@ struct FeedList: View {
                         .listRowBackground(Color.backgroundNeo)
                     
                     ForEach(store.feeds.indices, id: \.self) { index in
-                        NavigationLink(destination: PostList(feed: self.$store.feeds[index])) {
+                        NavigationLink(destination: PostList(feed: self.$store.feeds[index]).environmentObject(self.store)) {
                             FeedCell(feed: self.store.feeds[index])
                         }
                             
@@ -55,7 +55,7 @@ struct FeedList: View {
                 .padding(.top, 100)
                 .sheet(isPresented: self.$store.shouldSelectFeed) {
                     NavigationView {
-                        PostList(feed: Binding(self.$store.shouldSelectFeedObject)!)
+                        PostList(feed: Binding(self.$store.shouldSelectFeedObject)!).environmentObject(self.store)
                             .navigationBarItems(leading:
                                 Button(action: {
                                     self.store.shouldSelectFeed = false

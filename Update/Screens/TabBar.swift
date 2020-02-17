@@ -14,6 +14,7 @@ struct TabBar: View {
     var body: some View {
         TabView {
             FeedList()
+                .environmentObject(self.store)
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Feeds")

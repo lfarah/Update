@@ -13,7 +13,7 @@ import FeedKit
 struct PostList: View {
     @Binding var feed: FeedObject
 
-    @ObservedObject var store = RSSStore.instance
+    @EnvironmentObject var store: RSSStore
     @State var showingDetail = false
     @State var selectedPost: Post?
     @State var showFilter = false
@@ -79,11 +79,11 @@ struct PostList_Previews: PreviewProvider {
         Group {
             
             NavigationView {
-                PostList(feed: .constant(FeedObject(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)])))
+                PostList(feed: .constant(FeedObject(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)]))).environmentObject(RSSStore.instance)
             }.environment(\.colorScheme, .dark)
             
             NavigationView {
-                PostList(feed: .constant(FeedObject(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)])))
+                PostList(feed: .constant(FeedObject(name: "Test feed", url: URL(string: "https://www.google.com")!, posts: [Post(title: "Test post title", description: "Test post description", url: URL(string: "https://www.google.com")!)]))).environmentObject(RSSStore.instance)
             }.environment(\.colorScheme, .light)
         }
     }
