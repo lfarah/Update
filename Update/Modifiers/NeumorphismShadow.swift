@@ -27,8 +27,8 @@ struct NeumorphismShadow: ViewModifier {
             .shadow(color: self.bottom, radius: value, x: -value, y: -value)
     }
     
-    static var none = NeumorphismShadow(top: .grayShadow, bottom: .white, value: 0)
+    static var none = NeumorphismShadow(value: 0)
     static func simple(value: CGFloat) -> NeumorphismShadow {
-        NeumorphismShadow(top: .grayShadow, bottom: .white, value: value)
+        NeumorphismShadow(value: value)
     }
 }

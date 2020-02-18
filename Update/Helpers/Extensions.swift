@@ -20,20 +20,20 @@ extension Date {
 extension UserDefaults {
     static var feeds: [FeedObject] {
         get {
-            guard let data = UserDefaults(suiteName: "group.siligg")?.value(forKey: "feeds") as? Data else {
+            guard let data = UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "feeds") as? Data else {
                 return []
             }
             return (try? JSONDecoder().decode([FeedObject].self, from: data)) ?? []
         }
         set {
             let data = try? JSONEncoder().encode(newValue)
-            UserDefaults(suiteName: "group.siligg")?.set(data, forKey: "feeds")
+            UserDefaults(suiteName: "group.update.lucasfarah")?.set(data, forKey: "feeds")
         }
     }
     
     static var fetchContentTime: ContentTimeType {
         get {
-            guard let contentString = UserDefaults(suiteName: "group.siligg")?.value(forKey: "fetchContentTime") as? String else {
+            guard let contentString = UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "fetchContentTime") as? String else {
                 return .minute1
             }
             return ContentTimeType(rawValue: contentString) ?? .minute1
@@ -45,13 +45,13 @@ extension UserDefaults {
     
     static var newFeedsToAdd: [URL] {
         get {
-            guard let feeds = UserDefaults(suiteName: "group.siligg")?.value(forKey: "newFeedsToAdd") as? [String] else {
+            guard let feeds = UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "newFeedsToAdd") as? [String] else {
                 return []
             }
             return feeds.compactMap { URL(string: $0) }
         }
         set {
-            UserDefaults(suiteName: "group.siligg")?.set(newValue.map { $0.absoluteString }, forKey: "newFeedsToAdd")
+            UserDefaults(suiteName: "group.update.lucasfarah")?.set(newValue.map { $0.absoluteString }, forKey: "newFeedsToAdd")
         }
     }
 }

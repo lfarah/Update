@@ -23,7 +23,7 @@ struct NeumorphismButtonStyle: ButtonStyle {
   func makeBody(configuration: Self.Configuration) -> some View {
     configuration.label
         .foregroundColor(.white)
-        .colorMultiply(configuration.isPressed ? Color.grayActiveIcon : .backgroundNeo)
+//        .colorMultiply(configuration.isPressed ? Color.grayActiveIcon : .backgroundNeo)
         .background(configuration.isPressed ? Color.mainColorActive : .backgroundNeo)
         .cornerRadius(self.radius)
         .modifier(configuration.isPressed ? NeumorphismShadow.none : .simple(value: self.value))

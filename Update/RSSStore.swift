@@ -10,6 +10,7 @@ import SwiftUI
 import FeedKit
 import FaviconFinder
 import Combine
+import BackgroundTasks
 
 class FeedObject: Codable, Identifiable, ObservableObject {
     let id = UUID()
@@ -186,6 +187,7 @@ class RSSStore: ObservableObject {
     init() {
         self.feeds = UserDefaults.feeds
         // TODO: Fix this rx. I know I am making someone's eyes bleed right now, but I wanna get some basic functionality done before I clean up the code
+        
         notificationSubscriber = $shouldSelectFeedURL
             .receive(on: DispatchQueue.main)
             .map { (url) -> FeedObject? in
@@ -288,13 +290,23 @@ extension RSSStore {
 // MARK: - Public Methods
 extension RSSStore {
     
-    func reloadAllPosts() {
+    func reloadAllPosts(handler: (() -> Void)? = nil) {
+        var updatedCount = 0
         for feed in self.feeds {
-            reloadFeedPosts(feed: feed)
+            print("RELOADING POST")
+
+            reloadFeedPosts(feed: feed) { success in
+                print("GOT POST")
+
+                updatedCount += 1
+                if updatedCount >= self.feeds.count {
+                    handler?()
+                }
+            }
         }
     }
     
-    func reloadFeedPosts(feed: FeedObject) {
+    func reloadFeedPosts(feed: FeedObject, handler: ((_ success: Bool) -> Void)? = nil) {
         
         fetchContents(feedURL: feed.url) { (feedObject) in
             
@@ -307,6 +319,7 @@ extension RSSStore {
             }
             
             guard !recentFeedPosts.isEmpty else {
+                handler?(true)
                 return
             }
             
@@ -319,6 +332,7 @@ extension RSSStore {
             
             self.updateFeeds()
             self.scheduleNewPostNotification(for: feed)
+            handler?(true)
         }
     }
         
@@ -371,5 +385,16 @@ extension RSSStore {
         }
         
         update(feedURL: feedURL, handler: handler)
+    }
+    
+    func totalReadPosts(in date: Date) -> Int {
+        let allPosts = feeds.map { $0.posts }.reduce([], +)
+        
+        return allPosts.filter { (post) -> Bool in
+            guard  let readDate = post.readDate else {
+                return false
+            }
+            return Calendar.current.isDate(readDate, inSameDayAs: date)
+        }.count
     }
 }

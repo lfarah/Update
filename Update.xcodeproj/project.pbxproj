@@ -19,6 +19,15 @@
 		C203DC2623F8982D009030AE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC2423F8982D009030AE /* SettingsView.swift */; };
 		C203DC2723F8982D009030AE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC2423F8982D009030AE /* SettingsView.swift */; };
 		C203DC2823F8982D009030AE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC2423F8982D009030AE /* SettingsView.swift */; };
+		C203DC2A23FB1A8C009030AE /* ExpandableGoalCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC2923FB1A8C009030AE /* ExpandableGoalCard.swift */; };
+		C203DC2B23FB1A8C009030AE /* ExpandableGoalCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC2923FB1A8C009030AE /* ExpandableGoalCard.swift */; };
+		C203DC2C23FB1A8C009030AE /* ExpandableGoalCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC2923FB1A8C009030AE /* ExpandableGoalCard.swift */; };
+		C203DC2F23FB1C77009030AE /* RingGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC2E23FB1C77009030AE /* RingGraphView.swift */; };
+		C203DC3023FB1C77009030AE /* RingGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC2E23FB1C77009030AE /* RingGraphView.swift */; };
+		C203DC3123FB1C77009030AE /* RingGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC2E23FB1C77009030AE /* RingGraphView.swift */; };
+		C203DC3323FB2316009030AE /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC3223FB2316009030AE /* Graph.swift */; };
+		C203DC3423FB2316009030AE /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC3223FB2316009030AE /* Graph.swift */; };
+		C203DC3523FB2316009030AE /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C203DC3223FB2316009030AE /* Graph.swift */; };
 		C210736523F88C2500CDE5CD /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210736423F88C2500CDE5CD /* NavBar.swift */; };
 		C210736623F88C2500CDE5CD /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210736423F88C2500CDE5CD /* NavBar.swift */; };
 		C210736723F88C2500CDE5CD /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210736423F88C2500CDE5CD /* NavBar.swift */; };
@@ -51,6 +60,10 @@
 		C22D118C23F5E712009035F3 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D116A23F5AA3A009035F3 /* ShareViewController.swift */; };
 		C22D118D23F5E713009035F3 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D116A23F5AA3A009035F3 /* ShareViewController.swift */; };
 		C22D118E23F5E713009035F3 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D116A23F5AA3A009035F3 /* ShareViewController.swift */; };
+		C25AA0D023FC83FD00209A9E /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25AA0CF23FC83FD00209A9E /* InformationView.swift */; };
+		C25AA0D123FC83FD00209A9E /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25AA0CF23FC83FD00209A9E /* InformationView.swift */; };
+		C25AA0D223FC83FD00209A9E /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25AA0CF23FC83FD00209A9E /* InformationView.swift */; };
+		C25AA0D323FC83FD00209A9E /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25AA0CF23FC83FD00209A9E /* InformationView.swift */; };
 		C28FD91A23F0913B0054BAD1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28FD91923F0913B0054BAD1 /* AppDelegate.swift */; };
 		C28FD91C23F0913B0054BAD1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28FD91B23F0913B0054BAD1 /* SceneDelegate.swift */; };
 		C28FD91E23F0913B0054BAD1 /* PostList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28FD91D23F0913B0054BAD1 /* PostList.swift */; };
@@ -140,6 +153,9 @@
 		C203DC1923F89438009030AE /* NeumorphismShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphismShadow.swift; sourceTree = "<group>"; };
 		C203DC1F23F89560009030AE /* NeumorphismButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphismButtonStyle.swift; sourceTree = "<group>"; };
 		C203DC2423F8982D009030AE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		C203DC2923FB1A8C009030AE /* ExpandableGoalCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableGoalCard.swift; sourceTree = "<group>"; };
+		C203DC2E23FB1C77009030AE /* RingGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingGraphView.swift; sourceTree = "<group>"; };
+		C203DC3223FB2316009030AE /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		C210736423F88C2500CDE5CD /* NavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBar.swift; sourceTree = "<group>"; };
 		C22D114723F3B1DD009035F3 /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
 		C22D114B23F49F5A009035F3 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
@@ -150,6 +166,7 @@
 		C22D117723F5ACDC009035F3 /* GetURL.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = GetURL.js; sourceTree = "<group>"; };
 		C22D117C23F5D953009035F3 /* ShareNewFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNewFeedView.swift; sourceTree = "<group>"; };
 		C22D118B23F5E338009035F3 /* ShareNewFeed.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareNewFeed.entitlements; sourceTree = "<group>"; };
+		C25AA0CF23FC83FD00209A9E /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
 		C28FD91623F0913B0054BAD1 /* Update.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Update.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28FD91923F0913B0054BAD1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C28FD91B23F0913B0054BAD1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -277,7 +294,6 @@
 				C203DC1E23F8953E009030AE /* Modifiers */,
 				C2C9C2DA23F1C57200F84042 /* Components */,
 				C28FD94C23F091850054BAD1 /* RSSStore.swift */,
-				C22D114723F3B1DD009035F3 /* GoalsView.swift */,
 				C2E3A1F423F338FB00F0B7FB /* Notifier.swift */,
 				C22D117C23F5D953009035F3 /* ShareNewFeedView.swift */,
 				C28FD91F23F0913F0054BAD1 /* Assets.xcassets */,
@@ -324,10 +340,11 @@
 		C2C9C2D723F1C55400F84042 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				C28FD95523F0A98A0054BAD1 /* FeedList.swift */,
-				C203DC2423F8982D009030AE /* SettingsView.swift */,
-				C28FD91D23F0913B0054BAD1 /* PostList.swift */,
 				C22D114B23F49F5A009035F3 /* TabBar.swift */,
+				C28FD95523F0A98A0054BAD1 /* FeedList.swift */,
+				C28FD91D23F0913B0054BAD1 /* PostList.swift */,
+				C203DC2423F8982D009030AE /* SettingsView.swift */,
+				C22D114723F3B1DD009035F3 /* GoalsView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -357,6 +374,10 @@
 				C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */,
 				C28FD95023F09AC40054BAD1 /* SafariView.swift */,
 				C210736423F88C2500CDE5CD /* NavBar.swift */,
+				C203DC2E23FB1C77009030AE /* RingGraphView.swift */,
+				C203DC2923FB1A8C009030AE /* ExpandableGoalCard.swift */,
+				C25AA0CF23FC83FD00209A9E /* InformationView.swift */,
+				C203DC3223FB2316009030AE /* Graph.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -555,6 +576,7 @@
 				C22D118223F5DD39009035F3 /* RSSStore.swift in Sources */,
 				C203DC2823F8982D009030AE /* SettingsView.swift in Sources */,
 				C203DC2323F89560009030AE /* NeumorphismButtonStyle.swift in Sources */,
+				C25AA0D323FC83FD00209A9E /* InformationView.swift in Sources */,
 				C22D118123F5DA50009035F3 /* ShareNewFeedView.swift in Sources */,
 				C22D118923F5DD7B009035F3 /* Extensions.swift in Sources */,
 				C203DC1D23F89438009030AE /* NeumorphismShadow.swift in Sources */,
@@ -566,6 +588,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C203DC3323FB2316009030AE /* Graph.swift in Sources */,
 				C203DC2523F8982D009030AE /* SettingsView.swift in Sources */,
 				C29B590423F1C24300CB8F08 /* FilterView.swift in Sources */,
 				C2E3A1F523F338FB00F0B7FB /* Notifier.swift in Sources */,
@@ -577,12 +600,15 @@
 				C28FD91C23F0913B0054BAD1 /* SceneDelegate.swift in Sources */,
 				C2C9C2CE23F1C39C00F84042 /* PostCell.swift in Sources */,
 				C203DC1A23F89438009030AE /* NeumorphismShadow.swift in Sources */,
+				C203DC2F23FB1C77009030AE /* RingGraphView.swift in Sources */,
 				C22D114C23F49F5A009035F3 /* TabBar.swift in Sources */,
 				C28FD94D23F091850054BAD1 /* RSSStore.swift in Sources */,
 				C210736523F88C2500CDE5CD /* NavBar.swift in Sources */,
 				C2E3A1F723F348C000F0B7FB /* NewFeedPopup.swift in Sources */,
 				C22D114823F3B1DD009035F3 /* GoalsView.swift in Sources */,
+				C203DC2A23FB1A8C009030AE /* ExpandableGoalCard.swift in Sources */,
 				C203DC2023F89560009030AE /* NeumorphismButtonStyle.swift in Sources */,
+				C25AA0D023FC83FD00209A9E /* InformationView.swift in Sources */,
 				C22D117E23F5D9FF009035F3 /* ShareNewFeedView.swift in Sources */,
 				C28FD95123F09AC40054BAD1 /* SafariView.swift in Sources */,
 				C28FD91E23F0913B0054BAD1 /* PostList.swift in Sources */,
@@ -595,14 +621,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2C9C2CF23F1C39C00F84042 /* PostCell.swift in Sources */,
+				C203DC3023FB1C77009030AE /* RingGraphView.swift in Sources */,
 				C203DC1B23F89438009030AE /* NeumorphismShadow.swift in Sources */,
 				C2CEE18D23F34ADC007DFB9B /* Notifier.swift in Sources */,
 				C28FD96023F0EE4E0054BAD1 /* RSSStore.swift in Sources */,
 				C28FD95E23F0EE4B0054BAD1 /* SafariView.swift in Sources */,
 				C203DC2623F8982D009030AE /* SettingsView.swift in Sources */,
+				C203DC2B23FB1A8C009030AE /* ExpandableGoalCard.swift in Sources */,
 				C2CEE18B23F34ACD007DFB9B /* NewFeedPopup.swift in Sources */,
+				C25AA0D123FC83FD00209A9E /* InformationView.swift in Sources */,
 				C210736623F88C2500CDE5CD /* NavBar.swift in Sources */,
 				C2C9C2D123F1C3EB00F84042 /* Extensions.swift in Sources */,
+				C203DC3423FB2316009030AE /* Graph.swift in Sources */,
 				C22D118D23F5E713009035F3 /* ShareViewController.swift in Sources */,
 				C2C9C2DD23F1E2DF00F84042 /* BackButton.swift in Sources */,
 				C28FD95A23F0EE440054BAD1 /* PostList.swift in Sources */,
@@ -622,14 +652,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2C9C2D023F1C39D00F84042 /* PostCell.swift in Sources */,
+				C203DC3123FB1C77009030AE /* RingGraphView.swift in Sources */,
 				C203DC1C23F89438009030AE /* NeumorphismShadow.swift in Sources */,
 				C2CEE18E23F34ADD007DFB9B /* Notifier.swift in Sources */,
 				C28FD96123F0EE4F0054BAD1 /* RSSStore.swift in Sources */,
 				C28FD95F23F0EE4C0054BAD1 /* SafariView.swift in Sources */,
 				C203DC2723F8982D009030AE /* SettingsView.swift in Sources */,
+				C203DC2C23FB1A8C009030AE /* ExpandableGoalCard.swift in Sources */,
 				C2CEE18C23F34ACE007DFB9B /* NewFeedPopup.swift in Sources */,
+				C25AA0D223FC83FD00209A9E /* InformationView.swift in Sources */,
 				C210736723F88C2500CDE5CD /* NavBar.swift in Sources */,
 				C2C9C2D223F1C3EC00F84042 /* Extensions.swift in Sources */,
+				C203DC3523FB2316009030AE /* Graph.swift in Sources */,
 				C22D118C23F5E712009035F3 /* ShareViewController.swift in Sources */,
 				C2C9C2DE23F1E2DF00F84042 /* BackButton.swift in Sources */,
 				C28FD95B23F0EE440054BAD1 /* PostList.swift in Sources */,
@@ -692,14 +726,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7WB6X64N4P;
+				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				INFOPLIST_FILE = ShareNewFeed/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.lucasfarah.Update.ShareNewFeed;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucasfarah.Update.ShareNewFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -714,14 +748,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7WB6X64N4P;
+				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				INFOPLIST_FILE = ShareNewFeed/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.lucasfarah.Update.ShareNewFeed;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucasfarah.Update.ShareNewFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -854,14 +888,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Update/Preview Content\"";
-				DEVELOPMENT_TEAM = 7WB6X64N4P;
+				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Update/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.lucasfarah.Update;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucasfarah.Update;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -882,14 +916,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Update/Preview Content\"";
-				DEVELOPMENT_TEAM = 7WB6X64N4P;
+				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Update/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.lucasfarah.Update;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucasfarah.Update;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -905,7 +939,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7WB6X64N4P;
+				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				INFOPLIST_FILE = UpdateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -927,7 +961,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7WB6X64N4P;
+				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				INFOPLIST_FILE = UpdateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -948,7 +982,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7WB6X64N4P;
+				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				INFOPLIST_FILE = UpdateUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -968,7 +1002,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7WB6X64N4P;
+				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				INFOPLIST_FILE = UpdateUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
