@@ -13,14 +13,13 @@ struct TabBar: View {
 
     var body: some View {
         TabView {
-            FeedList()
-                .environmentObject(self.store)
+            FeedList(viewModel: FeedListViewModel())
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Feeds")
                 }
 
-            GoalsView()
+            GoalsView(viewModel: GoalsViewModel())
                 .tabItem {
                     Image(systemName: "pencil")
                     Text("Progress")

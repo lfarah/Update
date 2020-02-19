@@ -11,15 +11,11 @@ import Combine
 import SDWebImageSwiftUI
 
 struct FeedList: View {
-    @EnvironmentObject var store: RSSStore
-    @State var showNewFeedPopup = false
-    @State var feedURL: String = ""
-    @State var feedAddColor: Color = Color.backgroundNeo
-    @State var attempts: Int = 0
+    @ObservedObject var viewModel: FeedListViewModel
 
     func filterFeeds(url: String?) -> FeedObject? {
         guard let url = url else { return nil }
-        return store.feeds.first(where: { $0.url.absoluteString == url })
+        return viewModel.feeds.first(where: { $0.url.absoluteString == url })
     }
     
     var body: some View {
@@ -30,13 +26,14 @@ struct FeedList: View {
                 
                 List {
                     
-                    NewFeedPopup(feedURL: $feedURL, addFeedPressed: addFeed, feedAddColor: $feedAddColor, attempts: $attempts, show: $showNewFeedPopup)
+                    NewFeedPopup(feedURL: $viewModel.feedURL, addFeedPressed: addFeed, feedAddColor: $viewModel.feedAddColor, attempts: $viewModel.attempts, show: $viewModel.showNewFeedPopup)
                         .padding()
                         .listRowBackground(Color.backgroundNeo)
                     
-                    ForEach(store.feeds.indices, id: \.self) { index in
-                        NavigationLink(destination: PostList(feed: self.$store.feeds[index]).environmentObject(self.store)) {
-                            FeedCell(feed: self.store.feeds[index])
+                    ForEach(viewModel.feeds.indices, id: \.self) { index in
+                        NavigationLink(destination:
+                        PostList(viewModel: PostListViewModel(feed:  self.viewModel.feeds[index])).environmentObject(self.viewModel.store)) {
+                            FeedCell(feed: self.viewModel.feeds[index])
                         }
                             
                         .foregroundColor(.black)
@@ -47,18 +44,19 @@ struct FeedList: View {
                         .modifier(NeumorphismShadow())
 
                     }.onDelete { index in
-                        self.store.removeFeed(at: index.first!)
+                        guard let index = index.first else { return }
+                        self.viewModel.removeFeed(index: index)
                     }.listRowBackground(Color.backgroundNeo)
 
                 }
                 .background(Color.clear)
                 .padding(.top, 100)
-                .sheet(isPresented: self.$store.shouldSelectFeed) {
+                .sheet(isPresented: self.$viewModel.shouldSelectFeed) {
                     NavigationView {
-                        PostList(feed: Binding(self.$store.shouldSelectFeedObject)!).environmentObject(self.store)
+                        PostList(viewModel: PostListViewModel(feed: self.viewModel.store.shouldSelectFeedObject!)).environmentObject(self.viewModel.store)
                             .navigationBarItems(leading:
                                 Button(action: {
-                                    self.store.shouldSelectFeed = false
+                                    self.viewModel.shouldSelectFeed = false
                                 }, label: {
                                     Text("Close")
                                 })
@@ -66,13 +64,13 @@ struct FeedList: View {
                     }
                     .navigationViewStyle(StackNavigationViewStyle())
                 }
-                .sheet(isPresented: self.$store.shouldOpenSettings) {
-                    SettingsView(fetchContentTime: self.$store.fetchContentTime, notificationsEnabled: self.$store.notificationsEnabled, shouldOpenSettings: self.$store.shouldOpenSettings)
+                .sheet(isPresented: self.$viewModel.shouldOpenSettings) {
+                    self.viewModel.settingsView
                 }
                 
                 NavBar(title: "Feeds",
                        openNewFeed: openNewFeed,
-                       showNewFeedPopup: $showNewFeedPopup,
+                       showNewFeedPopup: $viewModel.showNewFeedPopup,
                        showFilter: .constant(false),
                        buttons: [.edit, .add])
             }
@@ -86,34 +84,12 @@ struct FeedList: View {
     }
     
     func openNewFeed() {
-        showNewFeedPopup.toggle()
+        viewModel.showNewFeedPopup.toggle()
     }
     
     func addFeed() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        guard let url = URL(string: feedURL) else {
-            self.attempts += 1
-            self.feedAddColor = Color.red
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.feedAddColor = Color.backgroundNeo
-            }
-            return
-        }
-        
-        store.addFeed(feedURL: url) { success in
-            self.feedAddColor = success ? Color.green : Color.red
-            
-            if success {
-                self.showNewFeedPopup = false
-            } else {
-                self.attempts += 1
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.feedAddColor = Color.backgroundNeo
-            }
-        }
+        viewModel.addFeed(url: viewModel.feedURL)
     }
 }
 
@@ -132,6 +108,6 @@ struct Shake: GeometryEffect {
 }
 struct FeedList_Previews: PreviewProvider {
     static var previews: some View {
-        FeedList().environment(\.colorScheme, .light)
+        FeedList(viewModel: FeedListViewModel()).environment(\.colorScheme, .light)
     }
 }

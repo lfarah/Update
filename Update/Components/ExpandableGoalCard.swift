@@ -7,13 +7,23 @@
 //
 
 import SwiftUI
+import Combine
+
+class GoalInfo: ObservableObject {
+    var readTodayCount: Int
+    var totalUnreadCount: Int
+    
+    init(readTodayCount: Int, totalUnreadCount: Int) {
+        self.readTodayCount = readTodayCount
+        self.totalUnreadCount = totalUnreadCount
+    }
+}
 
 struct ExpandableGoalCard: View {
     var goalName: String
     @Binding var showDetail: Bool
     @State var goalPercentage: CGFloat
-    @Binding var readPostCount: Int
-    @Binding var unreadPostCount: Int
+    @Binding var info: GoalInfo
     
     var body: some View {
         ZStack {
@@ -38,7 +48,7 @@ struct ExpandableGoalCard: View {
                 
                     RingGraphView(show: $showDetail, goalPercentage: goalPercentage)
                     
-                    InformationView(readPostCount: $readPostCount, unreadPostCount: $unreadPostCount)
+                InformationView(readPostCount: $info.readTodayCount, unreadPostCount: $info.totalUnreadCount)
                         .frame(maxWidth: screen.width - 64)
                         .padding(.horizontal, 32)
                 }
@@ -53,6 +63,6 @@ struct ExpandableGoalCard: View {
 }
 struct ExpandableGoalCard_Previews: PreviewProvider {
     static var previews: some View {
-        ExpandableGoalCard(goalName: "Inbox Zero", showDetail: .constant(false), goalPercentage: 70, readPostCount: .constant(5), unreadPostCount: .constant(10))
+        ExpandableGoalCard(goalName: "Inbox Zero", showDetail: .constant(false), goalPercentage: 70, info: .constant(GoalInfo(readTodayCount: 5, totalUnreadCount: 10)))
     }
 }

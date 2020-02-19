@@ -7,17 +7,24 @@
 //
 
 import SwiftUI
+import Combine
 
-struct GraphData: Identifiable {
+class GraphData: Identifiable, ObservableObject {
     let id = UUID()
     var title: String
     var titleFormat: String
     var value: Int
+    
+    init(title: String, titleFormat: String, value: Int) {
+        self.title = title
+        self.titleFormat = titleFormat
+        self.value = value
+    }
 }
 
 struct Graph: View {
     
-    @State var graphData: [GraphData]
+    @Binding var graphData: [GraphData]
     
     func calculateHighestValue() -> Int {
         return graphData.sorted(by: { $0.value > $1.value }).first?.value ?? 0
@@ -42,6 +49,9 @@ struct GraphBar: View {
     var width: CGFloat
     
     func calculateHeight() -> CGFloat {
+        guard maxValue > 0 else {
+            return 0
+        }
         return (CGFloat(data.value) / CGFloat(maxValue)) * 100
     }
     
@@ -63,12 +73,12 @@ struct GraphBar: View {
 
 struct Graph_Previews: PreviewProvider {
     static var previews: some View {
-        Graph(graphData: (0...7).map { day in
+        Graph(graphData: .constant((0...7).map { day in
             let today = Date()
             let date = Calendar.current.date(byAdding: .day, value: -day, to: today)!
             let title = date.toString(format: "EEE")
             return GraphData(title: title, titleFormat: "%d posts", value: Int.random(in: 0 ..< 15))
-        })
+        }))
     }
 }
 

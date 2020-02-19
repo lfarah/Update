@@ -8,49 +8,14 @@
 
 import SwiftUI
 
-enum GoalType: String, CaseIterable {
-    case inboxZero = "Inbox Zero"
-    case postDay1 = "Read 1 post per day"
-}
-
 struct GoalsView: View {
-    @ObservedObject var store = RSSStore.instance
+    @ObservedObject var viewModel: GoalsViewModel
+
     @State var showNewGoalPopup = false
-    @State var showGoalDetails: [Bool] = GoalType.allCases.map { _ in false }
     
     @State var newGoalTypeSelection: String = GoalType.inboxZero.rawValue
     @State var goalPercentage: CGFloat = 80
     @State var show: Bool = false
-    
-    func calculatePercentage() -> CGFloat {
-        if store.totalUnreadPosts == 0 {
-            return 100
-        } else if store.totalReadPostsToday > 0 {
-            return (CGFloat(store.totalReadPostsToday) / CGFloat(store.totalUnreadPosts + store.totalReadPostsToday)) * 100
-        } else {
-            return 0
-        }
-    }
-    
-    func createGraphModel() -> [GraphData] {
-        let totalDays = 7
-        
-        return (0...totalDays).map { day -> GraphData in
-            let today = Date()
-            let date = Calendar.current.date(byAdding: .day, value: -1 * (totalDays - day), to: today)!
-            
-            let title: String
-            if day == totalDays {
-                title = "Today"
-            } else {
-                title = date.toString(format: "EEE")
-            }
-            let totalPosts = self.store.totalReadPosts(in: date)
-            let format = totalPosts == 1 ? "%d post" : "%d posts"
-            
-            return GraphData(title: title, titleFormat: format, value: totalPosts)
-        }
-    }
     
     var body: some View {
         ZStack {
@@ -71,7 +36,14 @@ struct GoalsView: View {
                         Spacer()
                     }
                     
-                    Graph(graphData: createGraphModel())
+                    if viewModel.store.feeds.isEmpty {
+                        AnyView(Text("No feeds available. Please add a new feed"))
+                    } else {
+                        AnyView(Graph(graphData: $viewModel.graphData))
+                            .onAppear {
+                                self.viewModel.shouldReload = true
+                        }
+                    }
                 }
                 .padding()
                 .background(Color.backgroundNeo)
@@ -94,10 +66,9 @@ struct GoalsView: View {
                  ForEach(GoalType.allCases.indices, id: \.self) { index in
 
                     ExpandableGoalCard(goalName: GoalType.allCases[index].rawValue,
-                                       showDetail: self.$showGoalDetails[index],
-                                       goalPercentage: self.calculatePercentage(),
-                                       readPostCount: self.$store.totalReadPostsToday,
-                                       unreadPostCount: self.$store.totalUnreadPosts)
+                                       showDetail: self.$viewModel.showGoalDetails[index],
+                                       goalPercentage: self.viewModel.calculatePercentage(),
+                                       info: self.$viewModel.goalInfo)
                     .clipped()
                     .modifier(NeumorphismShadow())
 
@@ -120,8 +91,8 @@ struct GoalsView: View {
 struct GoalsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            GoalsView().environment(\.colorScheme, .light)
-            GoalsView().environment(\.colorScheme, .dark)
+            GoalsView(viewModel: GoalsViewModel()).environment(\.colorScheme, .light)
+            GoalsView(viewModel: GoalsViewModel()).environment(\.colorScheme, .dark)
         }
     }
 }
