@@ -39,7 +39,7 @@ struct GoalsView: View {
                     if viewModel.store.feeds.isEmpty {
                         AnyView(Text("No feeds available. Please add a new feed"))
                     } else {
-                        AnyView(Graph(graphData: $viewModel.graphData))
+                        AnyView(Graph(graphData: $viewModel.graphData, showBars: .constant(true)))
                             .onAppear {
                                 self.viewModel.shouldReload = true
                         }
@@ -69,9 +69,9 @@ struct GoalsView: View {
                                        showDetail: self.$viewModel.showGoalDetails[index],
                                        goalPercentage: self.viewModel.calculatePercentage(),
                                        info: self.$viewModel.goalInfo)
-                    .clipped()
-                    .modifier(NeumorphismShadow())
 
+                        .modifier(NeumorphismShadow())
+                    
                     }
                     .listRowBackground(Color.backgroundNeo)
                 }

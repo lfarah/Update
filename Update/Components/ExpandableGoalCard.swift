@@ -19,42 +19,71 @@ class GoalInfo: ObservableObject {
     }
 }
 
+enum ExpandableGoalCardType {
+    case regular
+    case small
+    
+    var ringGraphSize: CGFloat {
+        switch self {
+        case .regular:
+            return 100
+        case .small:
+            return 70
+        }
+    }
+    
+    var infoFont: Font {
+        switch self {
+        case .regular:
+            return .title
+        case .small:
+            return .subheadline
+        }
+    }
+
+}
+
 struct ExpandableGoalCard: View {
     var goalName: String
+    
     @Binding var showDetail: Bool
     @State var goalPercentage: CGFloat
     @Binding var info: GoalInfo
-    
+    var type: ExpandableGoalCardType = .regular
+
     var body: some View {
         ZStack {
+            
+            GeometryReader { geometry in
+
             RoundedRectangle(cornerRadius: 10)
-                .frame(maxWidth: screen.width - 64)
                 .foregroundColor(Color.backgroundNeo)
+                .frame(width: geometry.size.width)
             HStack {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(Color.green.opacity(0.5))
-                    .frame(maxWidth: !showDetail ? ((screen.width - 64) * (goalPercentage / 100)) : 0)
-                    .padding(.leading, 16)
+                    .frame(width: !self.showDetail ? (geometry.size.width * (self.goalPercentage / 100)) : 0)
                 Spacer()
+            }
             }
             
             VStack {
                 Text(goalName)
-                    .font(.system(.title))
+                    .font(type.infoFont)
                     .foregroundColor(Color.gray)
                     .padding(.top, showDetail ? 16 : 0)
-
+                    .frame(maxWidth: .infinity)
             if showDetail {
                 
-                    RingGraphView(show: $showDetail, goalPercentage: goalPercentage)
+                RingGraphView(show: $showDetail, goalPercentage: goalPercentage, width: type.ringGraphSize, height: type.ringGraphSize)
                     
-                InformationView(readPostCount: $info.readTodayCount, unreadPostCount: $info.totalUnreadCount)
-                        .frame(maxWidth: screen.width - 64)
-                        .padding(.horizontal, 32)
+                InformationView(readPostCount: $info.readTodayCount, unreadPostCount: $info.totalUnreadCount, font: type.infoFont)
+                        .padding(.horizontal, 16)
                 }
             }
         }
         .frame(minHeight: 120)
+        .frame(maxWidth: .infinity)
         .onTapGesture {
             self.showDetail.toggle()
         }

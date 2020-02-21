@@ -43,6 +43,7 @@ struct NavBar: View {
                     Spacer()
                 }
                 .padding(.horizontal)
+            } else {
             }
             
             HStack {

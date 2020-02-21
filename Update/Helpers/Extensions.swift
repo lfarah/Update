@@ -54,6 +54,16 @@ extension UserDefaults {
             UserDefaults(suiteName: "group.update.lucasfarah")?.set(newValue.map { $0.absoluteString }, forKey: "newFeedsToAdd")
         }
     }
+    
+    static var showOnboarding: Bool {
+        get {
+            return (UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "showOnboarding") as? Bool) ?? true
+        }
+        set {
+            UserDefaults(suiteName: "group.update.lucasfarah")?.set(newValue, forKey: "showOnboarding")
+        }
+    }
+
 }
 
 extension Color {

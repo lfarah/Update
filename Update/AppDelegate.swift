@@ -22,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.removePersistentDomain(forName: bundleName)
         }
         
-        registerBackgroundTasks()
         UNUserNotificationCenter.current().delegate = self
+        registerBackgroundTasks()
         return true
     }
         
@@ -104,9 +104,7 @@ extension AppDelegate {
             print("Task expired")
         }
         print("BACKGROUND REFRESH")
-        Notifier.notify(title: "Mih", body: "moh")
-        //        task.setTaskCompleted(success: true)
-        
+
         RSSStore.instance.reloadAllPosts() {
             print("RELOADED ALL POSTS")
             task.setTaskCompleted(success: true)
@@ -116,12 +114,9 @@ extension AppDelegate {
         scheduleAppRefresh()
         
     }
-    func scheduleAppRefresh() {
-        //        BGTaskScheduler.shared.cancelAllTaskRequests()
-        
+    func scheduleAppRefresh() {        
         let request = BGAppRefreshTaskRequest(identifier: "io.lucasfarah.update.fetchposts")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 5 * 60) // App Refresh after 2 minute.
-        //Note :: EarliestBeginDate should not be set to too far into the future.
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60) // App Refresh after 1 hour.
         
         do {
             try BGTaskScheduler.shared.submit(request)

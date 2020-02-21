@@ -25,6 +25,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UITableView.appearance().backgroundColor = .clear
         
         let contentView = TabBar()
+        let onboardingViewModel = OnboardingViewModel()
+        let onboarding = Onboarding(viewModel: onboardingViewModel)
+        let onboardingHost = UIHostingController(rootView: onboarding)
+
+        onboardingViewModel.finishedOnboarding = {
+            UserDefaults.showOnboarding = false
+            onboardingHost.dismiss(animated: false, completion: nil)
+        }
+
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
@@ -32,6 +41,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = UIHostingController(rootView: contentView)
             self.window = window
             window.makeKeyAndVisible()
+            
+            if UserDefaults.showOnboarding {
+                onboardingHost.view.backgroundColor = .clear
+                onboardingHost.modalPresentationStyle = .fullScreen
+                window.rootViewController?.present(onboardingHost, animated: true, completion: nil)
+            }
+
         }
     }
 
@@ -86,3 +102,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension CATransition {
+    func fadeTransition() -> CATransition {
+        let transition = CATransition()
+        transition.duration = 0.4
+        transition.type = CATransitionType.fade
+        transition.subtype = CATransitionSubtype.fromRight
+
+        return transition
+    }
+}

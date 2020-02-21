@@ -17,7 +17,7 @@ struct Notifier {
             let content = UNMutableNotificationContent()
             content.title = title
             content.body = body
-            content.categoryIdentifier = "alarm"
+//            content.categoryIdentifier = "alarm"
             if let info = info {
                 content.userInfo = info
             }

@@ -12,7 +12,7 @@ import SDWebImageSwiftUI
 
 struct FeedList: View {
     @ObservedObject var viewModel: FeedListViewModel
-
+    
     func filterFeeds(url: String?) -> FeedObject? {
         guard let url = url else { return nil }
         return viewModel.feeds.first(where: { $0.url.absoluteString == url })
@@ -42,15 +42,15 @@ struct FeedList: View {
                         .background(Color.backgroundNeo)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .modifier(NeumorphismShadow())
-
+                        
                     }.onDelete { index in
                         guard let index = index.first else { return }
                         self.viewModel.removeFeed(index: index)
                     }.listRowBackground(Color.backgroundNeo)
-
+                    
                 }
                 .background(Color.clear)
-                .padding(.top, 100)
+                .padding(.top, 120)
                 .sheet(isPresented: self.$viewModel.shouldSelectFeed) {
                     NavigationView {
                         PostList(viewModel: PostListViewModel(feed: self.viewModel.store.shouldSelectFeedObject!)).environmentObject(self.viewModel.store)
@@ -73,11 +73,17 @@ struct FeedList: View {
                        showNewFeedPopup: $viewModel.showNewFeedPopup,
                        showFilter: .constant(false),
                        buttons: [.edit, .add])
+                
+                if viewModel.feeds.isEmpty {
+                    FeedEmptyRow()
+                }
             }
             .navigationBarTitle("")
             .navigationBarBackButtonHidden(true)
             .navigationBarHidden(true)
             .edgesIgnoringSafeArea(.all)
+            
+            
         }
         .navigationViewStyle(DoubleColumnNavigationViewStyle())
         
