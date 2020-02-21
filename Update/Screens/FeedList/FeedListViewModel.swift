@@ -16,15 +16,16 @@ public class FeedListViewModel: ObservableObject {
     @Published var feeds: [FeedObject] = []
     @Published var showNewFeedPopup = false
     @Published var shouldSelectFeed = false
+    @Published var shouldSelectFeedObject: FeedObject?
+    
     @Published var shouldOpenSettings = false
     @Published var feedURL: String = ""
     @Published var feedAddColor: Color = Color.backgroundNeo
     @Published var attempts: Int = 0
-
-    private var cancellable: AnyCancellable? = nil
-    private var cancellable2: AnyCancellable? = nil
-    private var cancellable3: AnyCancellable? = nil
-
+    @Published var shouldPresentDetail = false
+    
+    var cancellables = Set<AnyCancellable>()
+    
     public init() {
         fetchInfo()
     }
@@ -32,24 +33,48 @@ public class FeedListViewModel: ObservableObject {
     func fetchInfo() {
         
         
-        cancellable = store.$feeds
+        store.$feeds
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { (newValue) in
                 self.feeds = newValue
             })
+            .store(in: &cancellables)
         
-        cancellable2 = store.$shouldSelectFeed
+        store.$shouldSelectFeedURL
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { (newValue) in
-                self.shouldSelectFeed = newValue
-            })
-
-        cancellable3 = store.$shouldOpenSettings
+            .map { (url) -> FeedObject? in
+                guard let url = url else {
+                    return nil
+                }
+                return self.feeds.first(where: {$0.url.absoluteString == url })
+        }
+        .removeDuplicates(by: { (lhs, rhs) -> Bool in
+            return lhs?.url.absoluteURL != rhs?.url.absoluteURL
+        })
+            .print()
+        .sink(receiveValue: { (newValue) in
+            self.shouldSelectFeedObject = newValue
+            self.shouldSelectFeed = newValue != nil
+            if self.shouldSelectFeed {
+                self.shouldPresentDetail = true
+            }
+            self.objectWillChange.send()
+        })
+            .store(in: &cancellables)
+        
+        store.$shouldOpenSettings
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { (newValue) in
                 self.shouldOpenSettings = newValue
-            })
+                
+                if self.shouldOpenSettings {
+                    self.shouldPresentDetail = true
+                }
 
+                self.objectWillChange.send()
+            })
+            .store(in: &cancellables)
+        
     }
     
     func addFeed(url: String) {
@@ -62,17 +87,17 @@ public class FeedListViewModel: ObservableObject {
             }
             return
         }
-
+        
         store.addFeed(feedURL: url) { success in
             self.feedAddColor = success ? Color.green : Color.red
-
+            
             if success {
                 self.feedURL = ""
                 self.showNewFeedPopup = false
             } else {
                 self.attempts += 1
             }
-
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.feedAddColor = Color.backgroundNeo
             }
@@ -83,7 +108,20 @@ public class FeedListViewModel: ObservableObject {
         self.store.removeFeed(at: index)
     }
     
-    var settingsView: SettingsView {
-        return SettingsView(fetchContentTime: self.$store.fetchContentTime, notificationsEnabled: self.$store.notificationsEnabled, shouldOpenSettings: self.$store.shouldOpenSettings)
+    var detailPage: AnyView {
+        if shouldOpenSettings {
+            return AnyView(SettingsView(fetchContentTime: self.$store.fetchContentTime, notificationsEnabled: self.$store.notificationsEnabled, shouldOpenSettings: self.$store.shouldOpenSettings))
+        } else {
+            return AnyView(NavigationView {
+                PostList(viewModel: PostListViewModel(feed: self.shouldSelectFeedObject!), tappedClose: {
+                    self.store.shouldSelectFeedURL = nil
+                }).environmentObject(self.store)
+                }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .navigationBarTitle("")
+                .navigationBarBackButtonHidden(true)
+                .navigationBarHidden(true)
+            )
+        }
     }
 }

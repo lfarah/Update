@@ -178,9 +178,7 @@ class RSSStore: ObservableObject {
     static let instance = RSSStore()
     
     @Published var feeds: [FeedObject] = []
-    @Published var shouldSelectFeed: Bool = false
     @Published var shouldSelectFeedURL: String?
-    @Published var shouldSelectFeedObject: FeedObject?
     @Published var shouldOpenSettings: Bool = false
     @Published var notificationsEnabled: Bool = false
     @Published var fetchContentTime: String = ContentTimeType.minute1.rawValue
@@ -199,23 +197,6 @@ class RSSStore: ObservableObject {
     init() {
         self.feeds = UserDefaults.feeds
         // TODO: Fix this rx. I know I am making someone's eyes bleed right now, but I wanna get some basic functionality done before I clean up the code
-        
-        notificationSubscriber = $shouldSelectFeedURL
-            .receive(on: DispatchQueue.main)
-            .map { (url) -> FeedObject? in
-                guard let url = url else {
-                    return nil
-                }
-                return self.feeds.first(where: {$0.url.absoluteString == url })
-            }
-            .assign(to: \.shouldSelectFeedObject, on: self)
-
-        notificationSubscriber2 = $shouldSelectFeedObject
-            .receive(on: DispatchQueue.main)
-            .map { (object) -> Bool in
-                return object != nil
-            }
-            .assign(to: \.shouldSelectFeed, on: self)
         
         fetchContentTime = UserDefaults.fetchContentTime.rawValue
         
@@ -344,10 +325,10 @@ extension RSSStore {
             
             feed.posts.insert(contentsOf: recentFeedPosts, at: 0)
             
-            if let index = self.feeds.firstIndex(where: {$0.url.absoluteString == feed.url.absoluteString}) {
-                self.feeds.remove(at: index)
-                self.feeds.insert(feed, at: index)
-            }
+//            if let index = self.feeds.firstIndex(where: {$0.url.absoluteString == feed.url.absoluteString}) {
+//                self.feeds.remove(at: index)
+//                self.feeds.insert(feed, at: index)
+//            }
             
             self.updateFeeds()
             self.scheduleNewPostNotification(for: feed)

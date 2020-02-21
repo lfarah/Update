@@ -15,35 +15,61 @@ enum NavBarButtonType: CaseIterable {
     case reload
 }
 
+enum NavBarHideType {
+    case back
+    case close
+}
+
 struct NavBar: View {
     var title: String
-    
+    var hideType: NavBarHideType?
+
     
     var openNewFeed: (() -> Void)?
     var updatePosts: (() -> Void)?
     var goBack: (() -> Void)?
+    var close: (() -> Void)?
+
     
     @Binding var showNewFeedPopup: Bool
     @Binding var showFilter: Bool
     
     var buttons: [NavBarButtonType]
     
+    func view(for type: NavBarHideType) -> AnyView
+    {
+        switch type {
+        case .back:
+            return AnyView(Image(systemName: "arrow.left")
+                .font(.system(size: 20, weight: .black))
+                .frame(width: 30, height: 30)
+                .onTapGesture {
+                    self.goBack?()
+                }
+)
+        case .close:
+            return AnyView(Text("+")
+                .font(.system(size: 40, weight: .bold))
+                .frame(width: 30, height: 30)
+                .rotationEffect(.degrees(45))
+            .onTapGesture {
+                self.close?()
+            }
+)
+        }
+
+    }
+    
     var body: some View {
         
         VStack {
-            if self.goBack != nil {
+            if self.hideType != nil {
                 
                 HStack {
-                    Image(systemName: "arrow.left")
-                        .font(.system(size: 20, weight: .black))
-                        .frame(width: 30, height: 30)
-                        .onTapGesture {
-                            self.goBack?()
-                    }
+                    view(for: self.hideType!)
                     Spacer()
                 }
                 .padding(.horizontal)
-            } else {
             }
             
             HStack {

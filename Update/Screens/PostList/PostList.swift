@@ -15,6 +15,8 @@ struct PostList: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    var tappedClose: (() -> Void)?
+    
     var body: some View {
         ZStack {
             Color.backgroundNeo
@@ -40,8 +42,10 @@ struct PostList: View {
             }
             
             NavBar(title: "Latest posts",
+                   hideType: tappedClose != nil ? .close : .back,
                    updatePosts: updatePosts,
                    goBack: goBack,
+                   close: tappedClose,
                    showNewFeedPopup: .constant(false),
                    showFilter: $viewModel.showFilter,
                    buttons: [.filter, .reload])
