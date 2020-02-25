@@ -8,7 +8,35 @@
 
 import SwiftUI
 
+enum NewFeedPopupType: String, CaseIterable {
+    case feed
+    case readItLater
+    
+    var title: String {
+        switch self {
+        case .feed:
+            return "Feed URL"
+        case .readItLater:
+            return "Link"
+        }
+    }
+    
+    var textFieldPlaceholderText:  String {
+        return "URL"
+    }
+    
+    var addButtonTitle: String {
+        switch self {
+        case .feed:
+            return "Add feed"
+        case .readItLater:
+            return "Add link"
+        }
+    }
+}
+
 struct NewFeedPopup: View {
+    var type: NewFeedPopupType
     @Binding var feedURL: String
     var addFeedPressed: (() -> Void)
     @Binding var feedAddColor: Color
@@ -18,12 +46,12 @@ struct NewFeedPopup: View {
     var body: some View {
         VStack {
             ZStack {
-                Text("Feed URL")
+                Text(type.title)
                     .font(.title)
                     .foregroundColor(.gray)
             }
             
-            TextField("URL", text: $feedURL)
+            TextField(type.textFieldPlaceholderText, text: $feedURL)
                 .background(Color.white)
                 .foregroundColor(Color(.black))
                 .clipShape(RoundedRectangle(cornerRadius: 5))
@@ -32,7 +60,7 @@ struct NewFeedPopup: View {
                 .padding()
 
             Button(action: addFeedPressed) {
-                Text("Add feed")
+                Text(type.addButtonTitle)
                     .padding()
                     .foregroundColor(.gray)
                     .background(Color.white)
@@ -56,8 +84,11 @@ struct NewFeedPopup: View {
 
 struct NewFeedPopup_Previews: PreviewProvider {
     static var previews: some View {
-        NewFeedPopup(feedURL: .constant("https://www.google.com"), addFeedPressed: {
-            
-        }, feedAddColor: .constant(Color.backgroundNeo), attempts: .constant(1), show: .constant(true))
+        ForEach(NewFeedPopupType.allCases, id: \.self.rawValue) { type in
+            NewFeedPopup(type: type, feedURL: .constant("https://www.google.com"), addFeedPressed: {
+                
+            }, feedAddColor: .constant(Color.backgroundNeo), attempts: .constant(1), show: .constant(true))
+                .frame(maxHeight: 100)
+        }
     }
 }

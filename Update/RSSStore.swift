@@ -247,6 +247,12 @@ class RSSStore: ObservableObject {
                 }
             }
         .store(in: &cancellables)
+        
+        for feed in feeds {
+            feed.objectWillChange.sink { _ in
+                self.objectWillChange.send()
+            }.store(in: &cancellables)
+        }
     }
     
     func refreshExtensionFeeds() {

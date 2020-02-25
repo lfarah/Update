@@ -34,7 +34,7 @@ public class GoalsViewModel: ObservableObject {
         cancellable = Publishers.CombineLatest3(store.$totalReadPostsToday, store.$totalUnreadPosts, $shouldReload)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { (newValue) in
-                self.goalInfo = GoalInfo(readTodayCount: newValue.0, totalUnreadCount: newValue.1)
+                self.goalInfo = self.mapGoalInfo()
                 self.graphData = self.createGraphModel()
             })
     }
@@ -47,6 +47,21 @@ public class GoalsViewModel: ObservableObject {
         } else {
             return 0
         }
+    }
+    
+    func mapGoalInfo() -> GoalInfo {
+        let readCount = store.feeds.map({ (feed) -> Int in
+                    return feed.posts.filter { (post) -> Bool in
+                        guard let readDate = post.readDate else { return false }
+                        return Calendar.current.isDateInToday(readDate)
+                    }.count
+                }).reduce(0, +)
+
+        
+        let unreadCount = store.feeds.map({ (feed) -> Int in
+                    return feed.posts.filter { $0.readDate == nil }.count
+                }).reduce(0, +)
+        return GoalInfo(readTodayCount: readCount, totalUnreadCount: unreadCount)
     }
     
     func createGraphModel() -> [GraphData] {

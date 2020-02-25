@@ -12,6 +12,7 @@ struct TabBar: View {
     @ObservedObject var store = RSSStore.instance
     var feedListViewModel = FeedListViewModel()
     var goalsViewModel = GoalsViewModel()
+    var readItLaterViewModel = ReadItLaterViewModel()
 
     var body: some View {
         TabView {
@@ -19,6 +20,12 @@ struct TabBar: View {
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Feeds")
+                }
+
+            ReadItLater(viewModel: readItLaterViewModel)
+                .tabItem {
+                    Image(systemName: "book")
+                    Text("Read it Later")
                 }
 
             GoalsView(viewModel: goalsViewModel)

@@ -16,7 +16,7 @@ GetURL.prototype = {
           links[i].rel === "alternate" &&
           (links[i].type === "application/rss+xml" || links[i].type === "application/rss") && filtered.push( links[i].href );
        }
-       arguments.completionFunction({"Feeds": filtered});
+       arguments.completionFunction({"Feeds": filtered, "URL": document.URL});
     }
 };
 var ExtensionPreprocessingJS = new GetURL;

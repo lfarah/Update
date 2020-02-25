@@ -26,7 +26,7 @@ struct FeedList: View {
                 
                 List {
                     
-                    NewFeedPopup(feedURL: $viewModel.feedURL, addFeedPressed: addFeed, feedAddColor: $viewModel.feedAddColor, attempts: $viewModel.attempts, show: $viewModel.showNewFeedPopup)
+                    NewFeedPopup(type: .feed, feedURL: $viewModel.feedURL, addFeedPressed: addFeed, feedAddColor: $viewModel.feedAddColor, attempts: $viewModel.attempts, show: $viewModel.showNewFeedPopup)
                         .padding()
                         .listRowBackground(Color.backgroundNeo)
                     

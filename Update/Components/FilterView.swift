@@ -20,40 +20,71 @@ struct FilterView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 16) {
+            Text("Filter by")
+                .font(.subheadline)
+            
                 HStack() {
                     Spacer()
-                    Text(FilterType.all.rawValue)
-                        .padding()
-                        .foregroundColor(Color(selectedFilter == .all ? .white : .label))
-                        .background(selectedFilter == .all ? Color.blue : nil)
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .onTapGesture {
-                            self.selectedFilter = .all
+                    
+                    ZStack {
+                        
+                        if selectedFilter == .all {
+                            RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(Color.backgroundNeo)
+                            .modifier(NeumorphismShadow())
+                        } else {
+                            RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(Color.backgroundNeo)
+                        }
+
+                        Text(FilterType.all.rawValue)
+                    }
+                    .padding()
+                    .onTapGesture {
+                        self.selectedFilter = .all
                     }
                     
-                    Text(FilterType.unreadOnly.rawValue)
-                        .padding()
-                        .foregroundColor(Color(selectedFilter == .unreadOnly ? .white : .label))
-                        .background(selectedFilter == .unreadOnly ? Color.blue : nil)
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .onTapGesture {
-                            self.selectedFilter = .unreadOnly
-                    }
-                    Spacer()
+                    ZStack {
+                        
+                        if selectedFilter == .unreadOnly {
+                            RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(Color.backgroundNeo)
+                            .modifier(NeumorphismShadow())
+                        } else {
+                            RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(Color.backgroundNeo)
+                        }
 
+                        Text(FilterType.unreadOnly.rawValue)
+                    }
+                    .padding()
+                    .onTapGesture {
+                        self.selectedFilter = .unreadOnly
+                    }
+
+                    Spacer()
                 }
+                .frame(height: 70)
                 
+            Text("Options")
+                .font(.subheadline)
+
                 Button(action: {
                     self.markedAllPostsRead?()
                 }) {
                     Text("Mark all read")
                         .font(.subheadline)
                         .foregroundColor(Color(.label))
+                        .padding()
                 }
+                .buttonStyle(NeumorphismButtonStyle(value: 8))
                 
             }
+        .padding()
+        .background(Color.backgroundNeo)
         .frame(height: showFilter ? nil : 0)
         .clipped()
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 

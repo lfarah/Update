@@ -31,6 +31,20 @@ extension UserDefaults {
         }
     }
     
+    static var items: [ReadItLaterItem] {
+        get {
+            guard let data = UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "items") as? Data else {
+                return []
+            }
+            return (try? JSONDecoder().decode([ReadItLaterItem].self, from: data)) ?? []
+        }
+        set {
+            let data = try? JSONEncoder().encode(newValue)
+            UserDefaults(suiteName: "group.update.lucasfarah")?.set(data, forKey: "items")
+        }
+    }
+
+    
     static var fetchContentTime: ContentTimeType {
         get {
             guard let contentString = UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "fetchContentTime") as? String else {

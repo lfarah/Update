@@ -40,9 +40,13 @@ class ShareViewController: UIViewController {
                 guard let dictionary = item as? NSDictionary else { return }
                 OperationQueue.main.addOperation {
                     if let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
-                        let feeds = results["Feeds"] as? [String] {
-                        self.shareFeedViewController.rootView.feeds = feeds
-
+                        let feeds = results["Feeds"] as? [String],
+                        let url = results["URL"] as? String {
+                        if url.split(separator: "/").count >= 4 {
+                            self.shareFeedViewController.rootView.type = .addReadItLater(url: url)
+                        } else {
+                            self.shareFeedViewController.rootView.type = .addFeed(urls: feeds)
+                        }
                     }
                 }
             })
