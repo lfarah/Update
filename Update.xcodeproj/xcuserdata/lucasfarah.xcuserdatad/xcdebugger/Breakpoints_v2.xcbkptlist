@@ -63,5 +63,53 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8054741D-52B5-4337-9DED-925AAE087DE2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Update/RSSStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "init()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8054741D-52B5-4337-9DED-925AAE087DE2 - 4acf7ee3c7f3ac2b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #8 (Swift.Bool) -&gt; () in Update.RSSStore.init() -&gt; Update.RSSStore"
+                  moduleName = "Update"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lucasfarah/Documents/Update/Update/RSSStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "245"
+                  endingLineNumber = "245"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "8054741D-52B5-4337-9DED-925AAE087DE2 - 88e5730d888e0a2a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in closure #8 (Swift.Bool) -&gt; () in Update.RSSStore.init() -&gt; Update.RSSStore"
+                  moduleName = "Update"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lucasfarah/Documents/Update/Update/RSSStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "247"
+                  endingLineNumber = "247"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

@@ -150,25 +150,22 @@ class Post: Codable, Identifiable, ObservableObject {
 }
 
 enum ContentTimeType: String, CaseIterable {
-    case minute1 = "1 minute"
-    case minute10 = "10 minutes"
-    case minute30 = "30 minutes"
     case minute60 = "1 hour"
     case minute120 = "2 hours"
-    
+    case hour12 = "12 hours"
+    case hour24 = "1 day"
+
     var seconds: Int {
         switch self {
             
-        case .minute1:
-            return 1 * 60
-        case .minute10:
-            return 10 * 60
-        case .minute30:
-            return 30 * 60
         case .minute60:
             return 60 * 60
         case .minute120:
             return 120 * 60
+        case .hour12:
+            return 12 * 60 * 60
+        case .hour24:
+            return 24 * 60 * 60
         }
     }
 }
@@ -181,8 +178,8 @@ class RSSStore: ObservableObject {
     @Published var shouldSelectFeedURL: String?
     @Published var shouldOpenSettings: Bool = false
     @Published var notificationsEnabled: Bool = false
-    @Published var fetchContentTime: String = ContentTimeType.minute1.rawValue
-    @Published var fetchContentType: ContentTimeType = .minute1
+    @Published var fetchContentTime: String = ContentTimeType.minute60.rawValue
+    @Published var fetchContentType: ContentTimeType = .minute60
     @Published var totalUnreadPosts: Int = 0
     @Published var totalReadPostsToday: Int = 0
     @Published var shouldReload = false
@@ -194,6 +191,8 @@ class RSSStore: ObservableObject {
     var postReadCount: AnyCancellable?
     var postReadCount2: AnyCancellable?
 
+    var cancellables = Set<AnyCancellable>()
+
     init() {
         self.feeds = UserDefaults.feeds
         // TODO: Fix this rx. I know I am making someone's eyes bleed right now, but I wanna get some basic functionality done before I clean up the code
@@ -203,7 +202,7 @@ class RSSStore: ObservableObject {
         fetchContentTimeSubscriber = $fetchContentTime
             .receive(on: DispatchQueue.main)
             .map { (fetchString) -> ContentTimeType in
-                return ContentTimeType(rawValue: fetchString) ?? .minute1
+                return ContentTimeType(rawValue: fetchString) ?? .minute60
             }
             .assign(to: \.fetchContentType, on: self)
         
@@ -226,7 +225,6 @@ class RSSStore: ObservableObject {
         .sink(receiveValue: { (newValue) in
             self.totalReadPostsToday = newValue
         })
-//        .assign(to: \.totalReadPostsToday, on: self)
 
         postReadCount2 = $feeds
             .receive(on: DispatchQueue.main)
@@ -239,7 +237,16 @@ class RSSStore: ObservableObject {
                 self.totalUnreadPosts = newValue
             })
 
-//        .assign(to: \.totalUnreadPosts, on: self)
+        $notificationsEnabled
+        .receive(on: DispatchQueue.main)
+        .removeDuplicates()
+            .filter { $0 }
+            .sink { (newValue) in
+                Notifier.requestAuthorization { (isAccepted) in
+
+                }
+            }
+        .store(in: &cancellables)
     }
     
     func refreshExtensionFeeds() {

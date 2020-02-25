@@ -10,16 +10,18 @@ import SwiftUI
 
 struct TabBar: View {
     @ObservedObject var store = RSSStore.instance
+    var feedListViewModel = FeedListViewModel()
+    var goalsViewModel = GoalsViewModel()
 
     var body: some View {
         TabView {
-            FeedList(viewModel: FeedListViewModel())
+            FeedList(viewModel: feedListViewModel)
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Feeds")
                 }
 
-            GoalsView(viewModel: GoalsViewModel())
+            GoalsView(viewModel: goalsViewModel)
                 .tabItem {
                     Image(systemName: "pencil")
                     Text("Progress")

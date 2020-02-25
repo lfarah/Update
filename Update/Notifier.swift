@@ -11,13 +11,13 @@ import UserNotifications
 
 struct Notifier {
     static func notify(title: String, body: String, info: [AnyHashable: Any]? = nil) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (isAccepted, error) in
+        Notifier.requestAuthorization { _ in
             let center = UNUserNotificationCenter.current()
             
             let content = UNMutableNotificationContent()
             content.title = title
             content.body = body
-//            content.categoryIdentifier = "alarm"
+
             if let info = info {
                 content.userInfo = info
             }
@@ -29,5 +29,11 @@ struct Notifier {
             center.add(request)
         }
 
+    }
+    
+    static func requestAuthorization(handler: @escaping (_ isAccepted: Bool) -> Void) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (isAccepted, error) in
+            handler(isAccepted)
+        }
     }
 }

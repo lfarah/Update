@@ -51,15 +51,15 @@ struct FeedList: View {
                 }
                 .background(Color.clear)
                 .padding(.top, 120)
+                .sheet(isPresented: self.$viewModel.shouldPresentDetail) {
+                    self.viewModel.detailPage
+                }
 
                 NavBar(title: "Feeds",
                        openNewFeed: openNewFeed,
                        showNewFeedPopup: $viewModel.showNewFeedPopup,
                        showFilter: .constant(false),
                        buttons: [.edit, .add])
-                .sheet(isPresented: self.$viewModel.shouldPresentDetail) {
-                    self.viewModel.detailPage
-                }
 
                 if viewModel.feeds.isEmpty {
                     FeedEmptyRow()

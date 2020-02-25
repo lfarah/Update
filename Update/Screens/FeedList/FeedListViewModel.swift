@@ -32,7 +32,6 @@ public class FeedListViewModel: ObservableObject {
     
     func fetchInfo() {
         
-        
         store.$feeds
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { (newValue) in
@@ -40,41 +39,25 @@ public class FeedListViewModel: ObservableObject {
             })
             .store(in: &cancellables)
         
-        store.$shouldSelectFeedURL
+        Publishers.CombineLatest(store.$shouldSelectFeedURL, store.$shouldOpenSettings)
             .receive(on: DispatchQueue.main)
-            .map { (url) -> FeedObject? in
-                guard let url = url else {
-                    return nil
+            .map { (newValue) -> (FeedObject?, Bool) in
+                guard let url = newValue.0 else {
+                    return (nil, newValue.1)
                 }
-                return self.feeds.first(where: {$0.url.absoluteString == url })
-        }
-        .removeDuplicates(by: { (lhs, rhs) -> Bool in
-            return lhs?.url.absoluteURL != rhs?.url.absoluteURL
-        })
-            .print()
-        .sink(receiveValue: { (newValue) in
-            self.shouldSelectFeedObject = newValue
-            self.shouldSelectFeed = newValue != nil
-            if self.shouldSelectFeed {
-                self.shouldPresentDetail = true
+                return (self.feeds.first(where: {$0.url.absoluteString == url }), newValue.1)
             }
-            self.objectWillChange.send()
-        })
-            .store(in: &cancellables)
-        
-        store.$shouldOpenSettings
-            .receive(on: DispatchQueue.main)
+            .removeDuplicates(by: { (lhs, rhs) -> Bool in
+                return lhs.0?.url.absoluteURL != rhs.0?.url.absoluteURL && lhs.1 != rhs.1
+            })
             .sink(receiveValue: { (newValue) in
-                self.shouldOpenSettings = newValue
-                
-                if self.shouldOpenSettings {
-                    self.shouldPresentDetail = true
-                }
-
-                self.objectWillChange.send()
+                self.shouldSelectFeedObject = newValue.0
+                self.shouldSelectFeed = newValue.0 != nil
+                self.shouldOpenSettings = newValue.1
+                self.shouldPresentDetail = self.shouldSelectFeed || self.shouldOpenSettings
+                print("present∂etail: \(self.shouldPresentDetail)")
             })
             .store(in: &cancellables)
-        
     }
     
     func addFeed(url: String) {
@@ -112,10 +95,11 @@ public class FeedListViewModel: ObservableObject {
         if shouldOpenSettings {
             return AnyView(SettingsView(fetchContentTime: self.$store.fetchContentTime, notificationsEnabled: self.$store.notificationsEnabled, shouldOpenSettings: self.$store.shouldOpenSettings))
         } else {
-            return AnyView(NavigationView {
-                PostList(viewModel: PostListViewModel(feed: self.shouldSelectFeedObject!), tappedClose: {
-                    self.store.shouldSelectFeedURL = nil
-                }).environmentObject(self.store)
+            return AnyView(
+                NavigationView {
+                    PostList(viewModel: PostListViewModel(feed: self.shouldSelectFeedObject!), tappedClose: {
+                        self.store.shouldSelectFeedURL = nil
+                    }).environmentObject(self.store)
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
                 .navigationBarTitle("")

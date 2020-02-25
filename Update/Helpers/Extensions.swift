@@ -34,9 +34,9 @@ extension UserDefaults {
     static var fetchContentTime: ContentTimeType {
         get {
             guard let contentString = UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "fetchContentTime") as? String else {
-                return .minute1
+                return .minute60
             }
-            return ContentTimeType(rawValue: contentString) ?? .minute1
+            return ContentTimeType(rawValue: contentString) ?? .minute60
         }
         set {
             UserDefaults(suiteName: "group.siligg")?.set(newValue.rawValue, forKey: "fetchContentTime")

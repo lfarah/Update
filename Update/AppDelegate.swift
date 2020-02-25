@@ -115,9 +115,12 @@ extension AppDelegate {
         scheduleAppRefresh()
         
     }
-    func scheduleAppRefresh() {        
+    
+    func scheduleAppRefresh() {
+        guard RSSStore.instance.notificationsEnabled else { return }
+        
         let request = BGAppRefreshTaskRequest(identifier: "io.lucasfarah.update.fetchposts")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60) // App Refresh after 1 hour.
+        request.earliestBeginDate = Date(timeIntervalSinceNow: TimeInterval(RSSStore.instance.fetchContentType.seconds)) // App Refresh after 1 hour.
         
         do {
             try BGTaskScheduler.shared.submit(request)

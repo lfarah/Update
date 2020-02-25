@@ -68,6 +68,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func startReloadTimer() {
+        guard RSSStore.instance.notificationsEnabled else { return }
+
         let currentReloadTime = RSSStore.instance.fetchContentType.seconds
         
         // TODO: make this work with Rx
