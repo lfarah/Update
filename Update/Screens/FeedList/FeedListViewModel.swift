@@ -56,6 +56,7 @@ public class FeedListViewModel: ObservableObject {
                 self.shouldOpenSettings = newValue.1
                 self.shouldPresentDetail = self.shouldSelectFeed || self.shouldOpenSettings
                 print("present∂etail: \(self.shouldPresentDetail)")
+                self.objectWillChange.send()
             })
             .store(in: &cancellables)
     }
