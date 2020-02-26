@@ -198,6 +198,7 @@ class RSSStore: ObservableObject {
         // TODO: Fix this rx. I know I am making someone's eyes bleed right now, but I wanna get some basic functionality done before I clean up the code
         
         fetchContentTime = UserDefaults.fetchContentTime.rawValue
+        notificationsEnabled = UserDefaults.notificationsEnabled
         
         fetchContentTimeSubscriber = $fetchContentTime
             .receive(on: DispatchQueue.main)
@@ -243,7 +244,7 @@ class RSSStore: ObservableObject {
             .filter { $0 }
             .sink { (newValue) in
                 Notifier.requestAuthorization { (isAccepted) in
-
+                    UserDefaults.notificationsEnabled = isAccepted
                 }
             }
         .store(in: &cancellables)

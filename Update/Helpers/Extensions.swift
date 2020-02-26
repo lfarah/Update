@@ -90,6 +90,16 @@ extension UserDefaults {
             UserDefaults(suiteName: "group.update.lucasfarah")?.set(newValue, forKey: "showOnboarding")
         }
     }
+    
+    static var notificationsEnabled: Bool {
+        get {
+            return (UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "notificationsEnabled") as? Bool) ?? false
+        }
+        set {
+            UserDefaults(suiteName: "group.update.lucasfarah")?.set(newValue, forKey: "notificationsEnabled")
+        }
+    }
+
 
 }
 
