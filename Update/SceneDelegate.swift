@@ -42,7 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
             
-            if UserDefaults.showOnboarding {
+            if true {
                 onboardingHost.view.backgroundColor = .clear
                 onboardingHost.modalPresentationStyle = .fullScreen
                 window.rootViewController?.present(onboardingHost, animated: true, completion: nil)

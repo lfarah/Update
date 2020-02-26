@@ -15,7 +15,6 @@ struct Onboarding: View {
         ZStack {
             Color.white
             
-            
             OnboardingLoadingCloud(show: self.$viewModel.tapped)
             
             ForEach(viewModel.pages.indices, id: \.self) { index in
@@ -35,7 +34,7 @@ struct Onboarding: View {
                     .onTapGesture {
                         self.viewModel.tappedNext()
                 }
-            }.padding(.bottom, 60)
+            }.padding(.bottom, 20)
         }
         .edgesIgnoringSafeArea(.all)
         .opacity(viewModel.screenOpacity)

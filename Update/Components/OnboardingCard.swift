@@ -21,8 +21,8 @@ struct OnboardingCard: View {
             content
                 .opacity(page.showContent ? 1 : 0)
         }
-        .frame(maxWidth: page.showContent ? 300 : page.minWidth)
-        .frame(height: page.showContent ? 600 : page.minWidth)
+        .frame(maxWidth: page.showContent ? (screen.width * 0.8) : page.minWidth)
+        .frame(height: page.showContent ? (screen.height * 0.8) : page.minWidth)
         .cornerRadius(page.showContent ? 10 : page.minWidth / 2)
         .shadow(radius: page.showContent ? 20 : 0)
         .scaleEffect(page.scale)

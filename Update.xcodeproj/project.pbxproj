@@ -169,9 +169,6 @@
 		C2C9C2D423F1C4C700F84042 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2D323F1C4C700F84042 /* FeedCell.swift */; };
 		C2C9C2D523F1C4C700F84042 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2D323F1C4C700F84042 /* FeedCell.swift */; };
 		C2C9C2D623F1C4C700F84042 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2D323F1C4C700F84042 /* FeedCell.swift */; };
-		C2C9C2DC23F1E2DF00F84042 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */; };
-		C2C9C2DD23F1E2DF00F84042 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */; };
-		C2C9C2DE23F1E2DF00F84042 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */; };
 		C2CEE18B23F34ACD007DFB9B /* NewFeedPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3A1F623F348C000F0B7FB /* NewFeedPopup.swift */; };
 		C2CEE18C23F34ACE007DFB9B /* NewFeedPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3A1F623F348C000F0B7FB /* NewFeedPopup.swift */; };
 		C2CEE18D23F34ADC007DFB9B /* Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3A1F423F338FB00F0B7FB /* Notifier.swift */; };
@@ -284,7 +281,6 @@
 		C2C9C2CB23F1C36E00F84042 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C2C9C2CD23F1C39C00F84042 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		C2C9C2D323F1C4C700F84042 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
-		C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		C2C9C2DF23F1E59700F84042 /* Update.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Update.entitlements; sourceTree = "<group>"; };
 		C2CF5A8223FCAD89002AE06A /* GoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModel.swift; sourceTree = "<group>"; };
 		C2CF5A8723FD935A002AE06A /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
@@ -349,6 +345,7 @@
 			isa = PBXGroup;
 			children = (
 				C22D118B23F5E338009035F3 /* ShareNewFeed.entitlements */,
+				C22D117C23F5D953009035F3 /* ShareNewFeedView.swift */,
 				C22D116A23F5AA3A009035F3 /* ShareViewController.swift */,
 				C22D116C23F5AA3A009035F3 /* MainInterface.storyboard */,
 				C22D116F23F5AA3A009035F3 /* Info.plist */,
@@ -387,14 +384,13 @@
 				C28FD91923F0913B0054BAD1 /* AppDelegate.swift */,
 				C28FD91B23F0913B0054BAD1 /* SceneDelegate.swift */,
 				C2C9C2D723F1C55400F84042 /* Screens */,
+				C203DC2423F8982D009030AE /* SettingsView.swift */,
 				C2C9C2D823F1C55F00F84042 /* Cells */,
+				C2A00B572406DA440095F024 /* External Libraries */,
 				C2C9C2D923F1C56700F84042 /* Helpers */,
 				C203DC1E23F8953E009030AE /* Modifiers */,
 				C2C9C2DA23F1C57200F84042 /* Components */,
-				C28FD94C23F091850054BAD1 /* RSSStore.swift */,
-				C2A00B3C2405CA800095F024 /* ReadItLaterStore.swift */,
-				C2E3A1F423F338FB00F0B7FB /* Notifier.swift */,
-				C22D117C23F5D953009035F3 /* ShareNewFeedView.swift */,
+				C2A00B582406DC580095F024 /* Store */,
 				C28FD91F23F0913F0054BAD1 /* Assets.xcassets */,
 				C28FD92423F0913F0054BAD1 /* LaunchScreen.storyboard */,
 				C28FD92723F0913F0054BAD1 /* Info.plist */,
@@ -463,17 +459,40 @@
 			path = SwiftLinkPreview;
 			sourceTree = "<group>";
 		};
+		C2A00B562406DA200095F024 /* Read it Later */ = {
+			isa = PBXGroup;
+			children = (
+				C2A00B092405BB060095F024 /* ReadItLater.swift */,
+				C2A00B0C2405BFA30095F024 /* ReadItLaterViewModel.swift */,
+			);
+			path = "Read it Later";
+			sourceTree = "<group>";
+		};
+		C2A00B572406DA440095F024 /* External Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				C2A00B132405C6CE0095F024 /* SwiftLinkPreview */,
+			);
+			path = "External Libraries";
+			sourceTree = "<group>";
+		};
+		C2A00B582406DC580095F024 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				C28FD94C23F091850054BAD1 /* RSSStore.swift */,
+				C2A00B3C2405CA800095F024 /* ReadItLaterStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		C2C9C2D723F1C55400F84042 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
 				C22D114B23F49F5A009035F3 /* TabBar.swift */,
-				C203DC2423F8982D009030AE /* SettingsView.swift */,
-				C2A00B092405BB060095F024 /* ReadItLater.swift */,
-				C2A00B0C2405BFA30095F024 /* ReadItLaterViewModel.swift */,
-				C2A00B132405C6CE0095F024 /* SwiftLinkPreview */,
 				C29C18E823FF370A00809AAB /* Onboarding */,
 				C2CF5A8023FCA9F1002AE06A /* FeedList */,
 				C2CF5A8123FCAA06002AE06A /* PostList */,
+				C2A00B562406DA200095F024 /* Read it Later */,
 				C2CF5A8623FCB0DE002AE06A /* Goals */,
 			);
 			path = Screens;
@@ -492,6 +511,7 @@
 		C2C9C2D923F1C56700F84042 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C2E3A1F423F338FB00F0B7FB /* Notifier.swift */,
 				C2C9C2CB23F1C36E00F84042 /* Extensions.swift */,
 			);
 			path = Helpers;
@@ -504,7 +524,6 @@
 				C29C18E423FF368100809AAB /* OnboardingLoadingCloud.swift */,
 				C29B590323F1C24300CB8F08 /* FilterView.swift */,
 				C2E3A1F623F348C000F0B7FB /* NewFeedPopup.swift */,
-				C2C9C2DB23F1E2DF00F84042 /* BackButton.swift */,
 				C28FD95023F09AC40054BAD1 /* SafariView.swift */,
 				C210736423F88C2500CDE5CD /* NavBar.swift */,
 				C203DC2E23FB1C77009030AE /* RingGraphView.swift */,
@@ -769,7 +788,6 @@
 				C29B590423F1C24300CB8F08 /* FilterView.swift in Sources */,
 				C2E3A1F523F338FB00F0B7FB /* Notifier.swift in Sources */,
 				C2C9C2D423F1C4C700F84042 /* FeedCell.swift in Sources */,
-				C2C9C2DC23F1E2DF00F84042 /* BackButton.swift in Sources */,
 				C29C18DD23FF333B00809AAB /* OnboardingViewModel.swift in Sources */,
 				C28FD91A23F0913B0054BAD1 /* AppDelegate.swift in Sources */,
 				C28FD95623F0A98A0054BAD1 /* FeedList.swift in Sources */,
@@ -838,7 +856,6 @@
 				C29C18E223FF360500809AAB /* OnboardingCard.swift in Sources */,
 				C22D118D23F5E713009035F3 /* ShareViewController.swift in Sources */,
 				C29C18DE23FF333B00809AAB /* OnboardingViewModel.swift in Sources */,
-				C2C9C2DD23F1E2DF00F84042 /* BackButton.swift in Sources */,
 				C28FD95A23F0EE440054BAD1 /* PostList.swift in Sources */,
 				C2A00B362405C6E00095F024 /* PreviewError.swift in Sources */,
 				C28FD95C23F0EE470054BAD1 /* FeedList.swift in Sources */,
@@ -891,7 +908,6 @@
 				C29C18E323FF360500809AAB /* OnboardingCard.swift in Sources */,
 				C22D118C23F5E712009035F3 /* ShareViewController.swift in Sources */,
 				C29C18DF23FF333B00809AAB /* OnboardingViewModel.swift in Sources */,
-				C2C9C2DE23F1E2DF00F84042 /* BackButton.swift in Sources */,
 				C28FD95B23F0EE440054BAD1 /* PostList.swift in Sources */,
 				C2A00B2E2405C6E00095F024 /* PreviewError.swift in Sources */,
 				C28FD95D23F0EE480054BAD1 /* FeedList.swift in Sources */,

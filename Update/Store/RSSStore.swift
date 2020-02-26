@@ -184,36 +184,30 @@ class RSSStore: ObservableObject {
     @Published var totalReadPostsToday: Int = 0
     @Published var shouldReload = false
 
-    var notificationSubscriber: AnyCancellable?
-    var notificationSubscriber2: AnyCancellable?
-    var fetchContentTimeSubscriber: AnyCancellable?
-    var fetchContentTimeSubscriber2: AnyCancellable?
-    var postReadCount: AnyCancellable?
-    var postReadCount2: AnyCancellable?
-
     var cancellables = Set<AnyCancellable>()
 
     init() {
         self.feeds = UserDefaults.feeds
-        // TODO: Fix this rx. I know I am making someone's eyes bleed right now, but I wanna get some basic functionality done before I clean up the code
         
         fetchContentTime = UserDefaults.fetchContentTime.rawValue
         notificationsEnabled = UserDefaults.notificationsEnabled
         
-        fetchContentTimeSubscriber = $fetchContentTime
+        $fetchContentTime
             .receive(on: DispatchQueue.main)
             .map { (fetchString) -> ContentTimeType in
                 return ContentTimeType(rawValue: fetchString) ?? .minute60
             }
             .assign(to: \.fetchContentType, on: self)
-        
-        fetchContentTimeSubscriber2 = $fetchContentType
+            .store(in: &cancellables)
+
+        $fetchContentType
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { (type) in
                 UserDefaults.fetchContentTime = type
             })
-        
-        postReadCount = $feeds
+            .store(in: &cancellables)
+
+        $feeds
             .receive(on: DispatchQueue.main)
             .map { (newValue) -> Int in
                 return newValue.map({ (feed) -> Int in
@@ -223,11 +217,12 @@ class RSSStore: ObservableObject {
                     }.count
                 }).reduce(0, +)
             }
-        .sink(receiveValue: { (newValue) in
-            self.totalReadPostsToday = newValue
-        })
+            .sink(receiveValue: { (newValue) in
+                self.totalReadPostsToday = newValue
+            })
+            .store(in: &cancellables)
 
-        postReadCount2 = $feeds
+        $feeds
             .receive(on: DispatchQueue.main)
             .map { (newValue) -> Int in
                 return newValue.map({ (feed) -> Int in
@@ -237,6 +232,7 @@ class RSSStore: ObservableObject {
             .sink(receiveValue: { (newValue) in
                 self.totalUnreadPosts = newValue
             })
+            .store(in: &cancellables)
 
         $notificationsEnabled
         .receive(on: DispatchQueue.main)

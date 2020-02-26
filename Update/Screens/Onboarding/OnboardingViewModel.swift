@@ -198,35 +198,32 @@ public class OnboardingViewModel: ObservableObject {
             page.offsetY = 0
             page.showContent = false
             page.scale = 1
-            page.objectWillChange.send()
 
         case .fullScreenCenter:
             page.offsetX = 0
             page.offsetY = 0
             page.showContent = true
             page.scale = 1
-            page.objectWillChange.send()
 
         case .fullScreenSide(let index):
             page.offsetX = CGFloat(316) * CGFloat(index)
             page.offsetY = 0
             page.showContent = true
             page.scale = 1
-            page.objectWillChange.send()
             
         case .top:
             page.offsetX = -145
-            page.offsetY = -360
+            page.offsetY = -(screen.height / 2.2)
             page.showContent = false
             page.scale = 0.5
-            page.objectWillChange.send()
             
         case .centerSmall:
             page.offsetX = 0
             page.offsetY = -25
             page.showContent = false
             page.scale = 0.5
-            page.objectWillChange.send()
         }
+        
+        page.objectWillChange.send()
     }
 }

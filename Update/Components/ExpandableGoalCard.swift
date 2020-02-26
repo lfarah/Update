@@ -92,6 +92,12 @@ struct ExpandableGoalCard: View {
 }
 struct ExpandableGoalCard_Previews: PreviewProvider {
     static var previews: some View {
+        Group {
         ExpandableGoalCard(goalName: "Inbox Zero", showDetail: .constant(false), goalPercentage: 70, info: .constant(GoalInfo(readTodayCount: 5, totalUnreadCount: 10)))
+            .frame(maxHeight: 100)
+            ExpandableGoalCard(goalName: "Inbox Zero", showDetail: .constant(true), goalPercentage: 70, info: .constant(GoalInfo(readTodayCount: 10, totalUnreadCount: 10)))
+                .frame(maxHeight: 100)
+
+        }
     }
 }

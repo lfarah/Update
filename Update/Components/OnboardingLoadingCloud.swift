@@ -87,6 +87,6 @@ struct LowerLoadingCloud: View {
 
 struct OnboardingLoadingCloud_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingLoadingCloud(show: .constant(true))
+        OnboardingLoadingCloud(show: .constant(false))
     }
 }
