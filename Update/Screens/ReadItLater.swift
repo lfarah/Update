@@ -80,8 +80,6 @@ struct ReadItLaterRow: View {
             VStack(alignment: .leading) {
                 Text(item.title!)
                     .font(.headline)
-                Text(item.description!)
-                    .font(.subheadline)
                 Text(item.link.absoluteString)
                     .font(.footnote)
             }

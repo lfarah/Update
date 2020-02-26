@@ -42,7 +42,10 @@ class ReadItLaterStore: ObservableObject {
         let preview = SwiftLinkPreview()
         preview.preview(url.absoluteString, onSuccess: { (response) in
             print(response)
-            let item = ReadItLaterItem(link: url, title: response.title, description: response.description, imageURL: URL(string: response.image!))
+            let imageURLStr = response.image ?? ""
+            let imageURL = URL(string: imageURLStr)
+
+            let item = ReadItLaterItem(link: url, title: response.title, description: response.description, imageURL: imageURL)
             self.items.insert(item, at: 0)
             UserDefaults.items = self.items
         }) { (error) in
@@ -58,4 +61,17 @@ class ReadItLaterStore: ObservableObject {
             UserDefaults.items = self.items
         }
     }
+    
+    func refreshExtensionItems() {
+        print("New items (\(UserDefaults.newItemsToAdd)")
+        for url in UserDefaults.newItemsToAdd {
+            addItem(url: url)
+        }
+        UserDefaults.newItemsToAdd = []
+    }
+    
+    func addItemFromExtension(url: URL) {
+        UserDefaults.newItemsToAdd = UserDefaults.newItemsToAdd + [url]
+    }
+
 }

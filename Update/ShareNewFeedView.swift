@@ -54,7 +54,7 @@ struct ShareNewFeedView: View {
                     .onTapGesture {
                         guard let url = URL(string: url) else { return }
 
-                        self.readItLaterStore.addItem(url: url)
+                        self.readItLaterStore.addItemFromExtension(url: url)
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             self.shouldDismiss?()

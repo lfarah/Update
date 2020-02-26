@@ -52,6 +52,25 @@ class ShareViewController: UIViewController {
             })
         } else {
             print("error")
+            
+            
+            guard let extensionItems = extensionContext?.inputItems as? [NSExtensionItem] else {
+                return
+            }
+
+            for extensionItem in extensionItems {
+                if let itemProviders = extensionItem.attachments as? [NSItemProvider] {
+                    for itemProvider in itemProviders {
+                        if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
+
+                            itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil, completionHandler: { text, error in
+                                guard let url = text as? URL else { return }
+                                self.shareFeedViewController.rootView.type = .addReadItLater(url: url.absoluteString)
+                            })
+                        }
+                    }
+                }
+            }
         }
     }
 

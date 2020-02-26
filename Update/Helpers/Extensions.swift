@@ -69,6 +69,19 @@ extension UserDefaults {
         }
     }
     
+    static var newItemsToAdd: [URL] {
+        get {
+            guard let feeds = UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "newItemsToAdd") as? [String] else {
+                return []
+            }
+            return feeds.compactMap { URL(string: $0) }
+        }
+        set {
+            UserDefaults(suiteName: "group.update.lucasfarah")?.set(newValue.map { $0.absoluteString }, forKey: "newItemsToAdd")
+        }
+    }
+
+    
     static var showOnboarding: Bool {
         get {
             return (UserDefaults(suiteName: "group.update.lucasfarah")?.value(forKey: "showOnboarding") as? Bool) ?? true

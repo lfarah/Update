@@ -962,6 +962,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				INFOPLIST_FILE = ShareNewFeed/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -972,6 +973,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lucasfarah.Update.ShareNewFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -984,6 +986,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = 7B6CRWVQ2T;
 				INFOPLIST_FILE = ShareNewFeed/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -994,6 +997,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lucasfarah.Update.ShareNewFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

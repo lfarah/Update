@@ -70,5 +70,21 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>twitter</string>
+    </array>
+    <key>NSExtensionAttributes</key>
+    <dict>
+        <key>NSExtensionActivationUsesStrictMatching</key>
+        <integer>2</integer>
+        <key>NSExtensionActivationRule</key>
+        <dict>
+            <key>NSExtensionActivationDictionaryVersion</key>
+            <integer>2</integer>
+            <key>NSExtensionActivationSupportsText</key>
+            <true/>
+        </dict>
+    </dict>
 </dict>
 </plist>
