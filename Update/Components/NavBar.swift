@@ -64,12 +64,12 @@ struct NavBar: View {
         
         VStack {
             if self.hideType != nil {
-                
                 HStack {
                     view(for: self.hideType!)
                     Spacer()
                 }
                 .padding(.horizontal)
+                .background(Color.backgroundNeo)
             }
             
             HStack {
@@ -77,7 +77,8 @@ struct NavBar: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(Color(.label))
-                
+                    .padding(.horizontal)
+
                 Spacer()
                 
                 if buttons.contains(.edit) {
@@ -133,16 +134,17 @@ struct NavBar: View {
                 }
             }
             .background(Color.backgroundNeo)
-            .padding(.horizontal)
-            
+            .padding(.top, hideType != nil ? -16 : 0)
+
             Spacer()
         }
-        .padding(.top, 60)
     }
 }
 struct NavBar_Previews: PreviewProvider {
     static var previews: some View {
-        NavBar(title: "Test", openNewFeed: {
+        NavBar(title: "Test",
+               hideType: .back,
+               openNewFeed: {
             
         }, updatePosts: {
             

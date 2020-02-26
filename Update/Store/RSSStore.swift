@@ -335,11 +335,10 @@ extension RSSStore {
             
             feed.posts.insert(contentsOf: recentFeedPosts, at: 0)
             
-//            if let index = self.feeds.firstIndex(where: {$0.url.absoluteString == feed.url.absoluteString}) {
-//                self.feeds.remove(at: index)
-//                self.feeds.insert(feed, at: index)
-//            }
-            
+            if let index = self.feeds.firstIndex(where: {$0.url.absoluteString == feed.url.absoluteString}) {
+                self.feeds.remove(at: index)
+                self.feeds.insert(feed, at: index)
+            }
             self.updateFeeds()
             self.scheduleNewPostNotification(for: feed)
             handler?(true)

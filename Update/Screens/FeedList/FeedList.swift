@@ -23,7 +23,8 @@ struct FeedList: View {
             ZStack {
                 Color.backgroundNeo
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                
+                    .edgesIgnoringSafeArea(.all)
+
                 List {
                     
                     NewFeedPopup(type: .feed, feedURL: $viewModel.feedURL, addFeedPressed: addFeed, feedAddColor: $viewModel.feedAddColor, attempts: $viewModel.attempts, show: $viewModel.showNewFeedPopup)
@@ -50,7 +51,7 @@ struct FeedList: View {
                     
                 }
                 .background(Color.clear)
-                .padding(.top, 120)
+                .padding(.top, 40)
                 .sheet(isPresented: self.$viewModel.shouldPresentDetail) {
                     self.viewModel.detailPage
                 }
@@ -68,7 +69,6 @@ struct FeedList: View {
             .navigationBarTitle("")
             .navigationBarBackButtonHidden(true)
             .navigationBarHidden(true)
-            .edgesIgnoringSafeArea(.all)
             
             
         }

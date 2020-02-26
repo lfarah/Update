@@ -17,13 +17,12 @@ struct InformationRow: View {
     var body: some View {
         VStack {
             HStack {
-                
-                Text("\( Int(Double(value) * valuePercentage))")
-                    .font(font)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color.gray)
-                    .frame(width: 50)
-                    .animation(nil)
+                    Text("\( Int(Double(self.value) * self.valuePercentage))")
+                        .font(self.font)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.gray)
+                        .frame(width: 70)
+                        .animation(nil)
                 
                 Text(text)
                     .font(font)
@@ -38,7 +37,7 @@ struct InformationView: View {
     @Binding var unreadPostCount: Int
     @State var valuePercentage: Double = 0
     var font: Font = .title
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Spacer()
@@ -67,6 +66,6 @@ struct InformationView: View {
 
 struct InformationView_Previews: PreviewProvider {
     static var previews: some View {
-        InformationView(readPostCount: .constant(20), unreadPostCount: .constant(20))
+        InformationView(readPostCount: .constant(200), unreadPostCount: .constant(20))
     }
 }

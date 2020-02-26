@@ -21,6 +21,7 @@ struct GoalsView: View {
         ZStack {
             Color.backgroundNeo
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .edgesIgnoringSafeArea(.all)
 
             NavBar(title: "Goals", goBack: nil, showNewFeedPopup: .constant(false), showFilter: .constant(false), buttons: [])
 
@@ -78,13 +79,12 @@ struct GoalsView: View {
 
             }
             .background(Color.backgroundNeo)
-            .padding(.top, 120)
+            .padding(.top, 40)
 
 //            NewGoalPopup(show: $showNewGoalPopup, goalTypeStr: $newGoalTypeSelection)
 //                .offset(x: 0, y: showNewGoalPopup ? 200 : screen.height)
             
         }
-        .edgesIgnoringSafeArea(.all)
     }
 }
 

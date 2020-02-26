@@ -31,6 +31,7 @@ public class FeedListViewModel: ObservableObject {
     }
     
     func fetchInfo() {
+        self.feeds = store.feeds
         
         store.$feeds
             .receive(on: DispatchQueue.main)

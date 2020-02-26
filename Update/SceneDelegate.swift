@@ -42,7 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
             
-            if true {
+            if UserDefaults.showOnboarding {
                 onboardingHost.view.backgroundColor = .clear
                 onboardingHost.modalPresentationStyle = .fullScreen
                 window.rootViewController?.present(onboardingHost, animated: true, completion: nil)
@@ -66,7 +66,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         startReloadTimer()
         RSSStore.instance.refreshExtensionFeeds()
         ReadItLaterStore.instance.refreshExtensionItems()
-
+        RSSStore.instance.reloadAllPosts()
     }
     
     func startReloadTimer() {

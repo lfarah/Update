@@ -26,6 +26,8 @@ public class PostListViewModel: ObservableObject {
     
     init(feed: FeedObject) {
         self.feed = feed
+        self.filteredPosts = feed.posts.filter { self.filterType == .unreadOnly ? !$0.isRead : true }
+
         cancellable = Publishers.CombineLatest3(self.$feed, self.$filterType, self.$shouldReload)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { (newValue) in

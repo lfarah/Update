@@ -21,7 +21,8 @@ struct PostList: View {
         ZStack {
             Color.backgroundNeo
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
+                .edgesIgnoringSafeArea(.all)
+
             List {
                 FilterView(selectedFilter: $viewModel.filterType, showFilter: $viewModel.showFilter, markedAllPostsRead: {
                     self.viewModel.markAllPostsRead()
@@ -36,7 +37,7 @@ struct PostList: View {
                 }
             }
             .background(Color.clear)
-            .padding(.top, 150)
+            .padding(.top, 60)
             .sheet(isPresented: self.$viewModel.showingDetail) {
                 SafariView(url: self.viewModel.selectedPost!.url)
             }
@@ -54,7 +55,6 @@ struct PostList: View {
         .navigationBarTitle("")
         .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)
-        .edgesIgnoringSafeArea(.all)
     }
     
     func goBack() {

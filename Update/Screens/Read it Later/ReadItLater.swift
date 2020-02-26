@@ -16,6 +16,7 @@ struct ReadItLater: View {
         ZStack {
             Color.backgroundNeo
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .edgesIgnoringSafeArea(.all)
 
             List {
                 NewFeedPopup(type: .readItLater, feedURL: self.$viewModel.feedURL, addFeedPressed: self.addLink, feedAddColor: self.$viewModel.feedAddColor, attempts: self.$viewModel.attempts, show: self.$viewModel.showNewFeedPopup)
@@ -31,7 +32,7 @@ struct ReadItLater: View {
                     .listRowBackground(Color.backgroundNeo)
                 }
             }
-            .padding(.top, 80)
+            .padding(.top, 40)
             .sheet(isPresented: self.$viewModel.showingDetail) {
                 SafariView(url: self.viewModel.selectedItem!.link)
             }
@@ -42,7 +43,6 @@ struct ReadItLater: View {
                    showFilter: .constant(false),
                    buttons: [NavBarButtonType.add])
         }
-        .edgesIgnoringSafeArea(.all)
     }
     
     func openNewFeed() {
